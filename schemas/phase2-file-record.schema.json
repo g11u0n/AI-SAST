@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI SAST Phase 2 file record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "target_commit_sha", "target_scope_sha256", "path",
+    "git_blob_oid", "extension", "raw_size_bytes", "raw_content_sha256",
+    "source_encoding", "language", "grammar", "parse_outcome",
+    "selected_parse_score", "parser_attempts", "fallback_reason", "chunk_count",
+    "covered_bytes", "unmapped_ranges", "overlap_ranges"
+  ],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "target_commit_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "target_scope_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "path": {"type": "string", "minLength": 1},
+    "git_blob_oid": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "extension": {"enum": [".c", ".h", ".cpp"]},
+    "raw_size_bytes": {"type": "integer", "minimum": 0},
+    "raw_content_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "source_encoding": {"enum": ["utf-8", "cp1252"]},
+    "language": {"enum": ["c", "cpp"]},
+    "grammar": {"enum": ["tree-sitter-c", "tree-sitter-cpp", "tree-sitter-c+line-window", "tree-sitter-cpp+line-window", "line-window"]},
+    "parse_outcome": {"enum": ["PARSE_SUCCESS", "FALLBACK_SUCCESS", "TERMINAL_ERROR"]},
+    "selected_parse_score": {
+      "type": ["array", "null"],
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {"type": "integer", "minimum": 0}
+    },
+    "parser_attempts": {"type": "array"},
+    "fallback_reason": {"type": ["string", "null"]},
+    "chunk_count": {"type": "integer", "minimum": 0},
+    "covered_bytes": {"type": "integer", "minimum": 0},
+    "unmapped_ranges": {"const": 0},
+    "overlap_ranges": {"const": 0}
+  }
+}

@@ -708,7 +708,10 @@ ai-sast/
 │
 ├── schemas/
 │   ├── target-lock.schema.json
-│   └── experiment-lock.schema.json
+│   ├── experiment-lock.schema.json
+│   ├── phase2-file-record.schema.json
+│   ├── phase2-chunk-record.schema.json
+│   └── phase2-batch-record.schema.json
 │
 ├── artifacts/
 │   ├── coverage/
@@ -724,6 +727,13 @@ ai-sast/
 │   │   ├── context_envelope.json
 │   │   ├── runtime_ps.json
 │   │   └── preflight_report.json
+│   ├── chunking/
+│   │   ├── chunking_contract.json
+│   │   ├── file_manifest.jsonl
+│   │   ├── chunk_manifest.jsonl
+│   │   ├── batch_manifest.jsonl
+│   │   ├── coverage_report.json
+│   │   └── phase2_report.json
 │   └── evaluation/
 │       └── selection.json
 │
@@ -733,8 +743,10 @@ ai-sast/
 │   │   └── ollama.py
 │   │
 │   ├── chunking/
+│   │   ├── blob_source.py
 │   │   ├── parser.py
 │   │   ├── chunker.py
+│   │   ├── batcher.py
 │   │   └── tokenizer.py
 │   │
 │   ├── index/
@@ -860,10 +872,32 @@ Phase 1에는 아직 Batch가 없으므로 가짜 ID나 빈 hash를 넣지 않�
 3. 모든 Chunk에 안정적 ID, file/line, content hash, token count를 부여한다.
 4. Phase 1의 context envelope에 맞춰 결정적으로 Batch를 구성한다.
 
+Canonical 구현 계약:
+
+- `.h`는 C/C++ 양쪽을 파싱한 뒤 ERROR byte union, MISSING 수, ERROR 수,
+  C-first tie-break 순서로 grammar를 고른다.
+- UTF-8 strict에 실패한 blob은 CP1252 strict로만 decode하며, replacement character나
+  NUL은 허용하지 않는다. Non-UTF-8은 whole-file line-window로 처리하고, syntax
+  ERROR/MISSING 파일은 정상 구조 단위를 유지한 채 diagnostic unit만 line-window로
+  매핑한다.
+- Chunk 범위는 raw Git blob의 half-open byte range이며 각 파일의 `[0, size)`를
+  gap/overlap 없이 정확히 한 번 partition한다. Content hash는 정규화하지 않은 raw
+  slice 기준이다.
+- `token_count`는 실제 tokenizer 추정치가 아니라 Phase 1에 고정한
+  `utf8_byte_upper_bound_v1`의 보수적 pre-inference budget이다. 실제 LLM Token은
+  이후 Ollama provider counter를 authoritative value로 사용한다.
+- Batch budget 3,840은 raw code 합계가 아니라 Chunk header/delimiter를 포함한 최종
+  Evidence 문자열의 UTF-8 byte 수에 적용한다.
+- Batch/selection을 2회 byte-identical 재생성하고 독립 검증한 뒤에만
+  `evaluation_frozen`으로 전환한다.
+
 완료 기준:
 
-- `parse_success + fallback_success + parse_error = 654`
+- `parse_success + fallback_success + terminal_error = 654`, `terminal_error == 0`
 - `unmapped_in_scope_ranges == 0`; 불가능한 파일은 실행 전 명시적 Scope 변경 필요
+- `overlap_in_scope_ranges == 0`, 모든 Chunk가 정확히 한 Batch에 속함
+- 모든 rendered Evidence payload가 3,840 UTF-8 bytes 이하임
+- 결과를 보기 전에 결정적 ranking으로 3개 Batch를 고정하고 Lock에 hash를 결합함
 - 동일 Lock 입력에서 Chunk/Batch Manifest와 hash가 byte-identical하게 재생성됨
 
 ## Phase 3. Compact Code Index
@@ -1129,8 +1163,8 @@ If required evidence is missing, return NEED_CONTEXT."
 
 v1은 아래가 되면 성공이다.
 
-- [ ] Raspberry Pi Userland를 자동으로 Chunking할 수 있음
-- [ ] Chunk가 여러 Batch로 구성됨
+- [x] Raspberry Pi Userland를 자동으로 Chunking할 수 있음
+- [x] Chunk가 여러 Batch로 구성됨
 - [ ] Analyst Agent가 Batch 전체를 분석함
 - [ ] Analyst가 추가 Context를 요청할 수 있음
 - [ ] Context Agent가 필요한 Chunk를 찾아 제공함
@@ -2411,9 +2445,9 @@ Runtime Prompt
 
 ```text
 [Deterministic]
-[ ] C/C++ Repository Parser
-[ ] Structural Chunker
-[ ] Batch Generator
+[x] C/C++ Repository Parser
+[x] Structural Chunker
+[x] Batch Generator
 [ ] Compact Code Index
 [ ] Retrieval Tools
 [ ] Token Counter / Telemetry
@@ -2437,7 +2471,7 @@ Runtime Prompt
 [ ] Baseline 비교
 
 [Development Evidence]
-[x] Phase 0~1 Codex Development Prompt 저장
+[x] Phase 0~2 Codex Development Prompt 저장
 [ ] Runtime Prompt 저장
 [ ] Prompt Evolution 기록
 ```

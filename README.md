@@ -7,7 +7,8 @@ Context, Verifier Agent로 정적 보안 분석을 수행하는 과제 프로젝
 
 - Phase 0 — Target Scope Contract: 완료
 - Phase 1 — OllamaProvider Preflight and Experiment Lock: 완료
-- Phase 2 이후: 아직 시작하지 않음
+- Phase 2 — Repository Parser, Structural Chunker, Batch Generator: 완료
+- Phase 3 이후: 아직 시작하지 않음
 
 단계는 [AI_SAST_Codex_Spec_v3.md](AI_SAST_Codex_Spec_v3.md)의
 Canonical 개발 순서를 따른다. 한 단계의 완료 기준을 검증한 뒤 다음 단계로
@@ -83,6 +84,45 @@ Manifest와 selection hash를 결합할 때 새 Experiment ID를 발급한다.
 각자의 cap 안에 있었다. reserved output 1,280 및 safety margin 768을 별도로
 확보했다. 원시 요청·응답·component delta와 counter는
 `artifacts/preflight/`에서 확인할 수 있다.
+
+## Phase 2 재현
+
+Python 의존성은 프로젝트 내부 가상환경에 고정 버전으로 설치한다.
+
+```powershell
+python -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt
+.venv\Scripts\python scripts/build_phase2.py --freeze-experiment
+.venv\Scripts\python scripts/verify_phase2.py
+.venv\Scripts\python tests/phase2_contract.py --verbose
+```
+
+Builder는 Phase 0의 654개 `source_manifest.jsonl`만 파일 목록으로 사용하며,
+원문은 worktree가 아닌 잠긴 Git blob OID에서 읽는다. UTF-8 strict decoding에
+실패한 5개 파일은 CP1252 strict decoding과 line-window fallback을 명시적으로
+기록한다. Syntax ERROR/MISSING이 있는 파일도 결정적 fallback으로 전체 byte 범위를
+매핑하되, 정상 구조 단위는 보존하고 진단이 포함된 국소 단위만 line-window로
+대체한다.
+
+현재 결과는 다음과 같다.
+
+- `PARSE_SUCCESS`: 403 files
+- `FALLBACK_SUCCESS`: 251 files
+- `TERMINAL_ERROR`: 0 files
+- Chunk: 26,645개; Batch: 4,695개
+- Unmapped/overlap range: 각각 0
+- 모든 Batch의 헤더 포함 Evidence payload: 3,840 UTF-8 bytes 이하
+- Experiment ID: `exp-v1-bea7f80c4b0484d6a706d8c7`
+- 고정 3-Batch:
+  `B1-81ac8095b55699e13da4f095`,
+  `B1-4de127c0fe88d0c5bae2c958`,
+  `B1-d532194abf0d496a79bb1b5c`
+
+Chunk/Batch manifest에는 원문 코드를 복제하지 않는다. `git_blob_oid`와 half-open
+byte range, raw SHA-256만 저장하고 필요할 때 동일 Git blob에서 재조회한다.
+`scripts/verify_phase2.py`는 654개 blob의 exact partition, Chunk/Batch ID, Evidence
+frame hash, next-fit membership, 3-Batch ranking, Experiment binding을 독립적으로
+재계산하며 기본 실행에서는 격리 출력으로 전체 Builder 재생성까지 비교한다.
 
 ## 추적 정책
 

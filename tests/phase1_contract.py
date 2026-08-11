@@ -127,6 +127,7 @@ class Phase1ContractTests(unittest.TestCase):
     def test_frozen_stage_requires_selection_digests(self) -> None:
         changed = copy.deepcopy(self.lock)
         changed["semantic"]["lock_stage"] = "evaluation_frozen"
+        changed["semantic"].pop("evaluation_binding", None)
         reseal(changed)
         with self.assertRaises(VERIFIER.VerificationError):
             VERIFIER.validate_semantics(changed, self.target_lock)
