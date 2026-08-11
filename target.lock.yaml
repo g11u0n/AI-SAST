@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "target": {
+    "id": "raspberrypi-userland",
+    "display_name": "Raspberry Pi Userland",
+    "repository_url": "https://github.com/raspberrypi/userland.git",
+    "repository_web_url": "https://github.com/raspberrypi/userland",
+    "ref_at_lock": "refs/heads/master",
+    "commit_sha": "a54a0dbb2b8dcf9bafdddfc9a9374fb51d97e976",
+    "commit_date": "2024-12-23",
+    "license": "BSD-3-Clause",
+    "submodules": []
+  },
+  "checkout": {
+    "source": "git_tree",
+    "analysis_content_source": "git_blob_at_locked_commit",
+    "tracked_only": true,
+    "require_exact_commit": true,
+    "require_clean_worktree": true,
+    "follow_symlinks": false,
+    "allow_submodules": false
+  },
+  "analysis_scope": {
+    "language_family": [
+      "c",
+      "cpp"
+    ],
+    "include_patterns": [
+      "**/*.c",
+      "**/*.h",
+      "**/*.cpp"
+    ],
+    "exclude_paths": [],
+    "precedence": "exclude_wins",
+    "path_case_sensitive": true,
+    "tests": "include",
+    "examples": "include",
+    "bundled_opensource": "include",
+    "build_reachability_filter": "disabled",
+    "preprocessor_branch_filter": "disabled",
+    "target_file_list_sha256": "fb00da1a82fcd1e02b436c4f58cbd8391094901da8450b9881063db3558e6057",
+    "scope_sha256": "2d7910c98cd57192f9c80436d18d39be247a8b8e6705b98f831ee747b1d1d50a"
+  },
+  "expected_inventory": {
+    "tracked_files": 830,
+    "in_scope_files": 654,
+    "out_of_scope_files": 176,
+    "in_scope_by_extension": {
+      ".c": 284,
+      ".h": 367,
+      ".cpp": 3
+    },
+    "in_scope_by_top_level": {
+      "containers": 104,
+      "helpers": 8,
+      "host_applications": 127,
+      "host_support": 2,
+      "interface": 371,
+      "makefiles": 1,
+      "middleware": 20,
+      "opensrc": 13,
+      "vcfw": 5,
+      "vcinclude": 3
+    }
+  },
+  "integrity": {
+    "fail_if_remote_mismatch": true,
+    "fail_if_commit_mismatch": true,
+    "fail_if_worktree_dirty": true,
+    "fail_if_inventory_mismatch": true,
+    "fail_if_duplicate_path": true,
+    "fail_if_unclassified_tracked_file": true,
+    "fail_if_in_scope_path_excluded": true
+  },
+  "artifacts": {
+    "target_inventory": "artifacts/coverage/target_inventory.json",
+    "source_manifest": "artifacts/coverage/source_manifest.jsonl",
+    "exclusion_manifest": "artifacts/coverage/exclusion_manifest.jsonl",
+    "target_verification": "artifacts/coverage/target_verification.json"
+  },
+  "experiment_invalidation": {
+    "trigger": "any_semantic_target_lock_change",
+    "action": "create_new_experiment_id_and_rebuild_all_downstream_artifacts"
+  }
+}

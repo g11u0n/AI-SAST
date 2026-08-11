@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:ai-sast:target-lock:v1",
+  "title": "AI SAST target lock",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "target",
+    "checkout",
+    "analysis_scope",
+    "expected_inventory",
+    "integrity",
+    "artifacts",
+    "experiment_invalidation"
+  ],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id", "display_name", "repository_url", "repository_web_url",
+        "ref_at_lock", "commit_sha", "commit_date", "license", "submodules"
+      ],
+      "properties": {
+        "id": { "const": "raspberrypi-userland" },
+        "display_name": { "const": "Raspberry Pi Userland" },
+        "repository_url": { "const": "https://github.com/raspberrypi/userland.git" },
+        "repository_web_url": { "const": "https://github.com/raspberrypi/userland" },
+        "ref_at_lock": { "const": "refs/heads/master" },
+        "commit_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "commit_date": { "type": "string", "format": "date" },
+        "license": { "const": "BSD-3-Clause" },
+        "submodules": { "type": "array", "maxItems": 0 }
+      }
+    },
+    "checkout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source", "analysis_content_source", "tracked_only", "require_exact_commit",
+        "require_clean_worktree", "follow_symlinks", "allow_submodules"
+      ],
+      "properties": {
+        "source": { "const": "git_tree" },
+        "analysis_content_source": { "const": "git_blob_at_locked_commit" },
+        "tracked_only": { "const": true },
+        "require_exact_commit": { "const": true },
+        "require_clean_worktree": { "const": true },
+        "follow_symlinks": { "const": false },
+        "allow_submodules": { "const": false }
+      }
+    },
+    "analysis_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "language_family", "include_patterns", "exclude_paths", "precedence",
+        "path_case_sensitive", "tests", "examples", "bundled_opensource",
+        "build_reachability_filter", "preprocessor_branch_filter",
+        "target_file_list_sha256", "scope_sha256"
+      ],
+      "properties": {
+        "language_family": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [{ "const": "c" }, { "const": "cpp" }],
+          "items": false
+        },
+        "include_patterns": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": { "enum": ["**/*.c", "**/*.h", "**/*.cpp"] }
+        },
+        "exclude_paths": { "type": "array", "maxItems": 0 },
+        "precedence": { "const": "exclude_wins" },
+        "path_case_sensitive": { "const": true },
+        "tests": { "const": "include" },
+        "examples": { "const": "include" },
+        "bundled_opensource": { "const": "include" },
+        "build_reachability_filter": { "const": "disabled" },
+        "preprocessor_branch_filter": { "const": "disabled" },
+        "target_file_list_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "scope_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "expected_inventory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tracked_files", "in_scope_files", "out_of_scope_files",
+        "in_scope_by_extension", "in_scope_by_top_level"
+      ],
+      "properties": {
+        "tracked_files": { "const": 830 },
+        "in_scope_files": { "const": 654 },
+        "out_of_scope_files": { "const": 176 },
+        "in_scope_by_extension": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [".c", ".h", ".cpp"],
+          "properties": {
+            ".c": { "const": 284 },
+            ".h": { "const": 367 },
+            ".cpp": { "const": 3 }
+          }
+        },
+        "in_scope_by_top_level": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "containers", "helpers", "host_applications", "host_support",
+            "interface", "makefiles", "middleware", "opensrc", "vcfw", "vcinclude"
+          ],
+          "properties": {
+            "containers": { "const": 104 },
+            "helpers": { "const": 8 },
+            "host_applications": { "const": 127 },
+            "host_support": { "const": 2 },
+            "interface": { "const": 371 },
+            "makefiles": { "const": 1 },
+            "middleware": { "const": 20 },
+            "opensrc": { "const": 13 },
+            "vcfw": { "const": 5 },
+            "vcinclude": { "const": 3 }
+          }
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fail_if_remote_mismatch", "fail_if_commit_mismatch",
+        "fail_if_worktree_dirty", "fail_if_inventory_mismatch",
+        "fail_if_duplicate_path", "fail_if_unclassified_tracked_file",
+        "fail_if_in_scope_path_excluded"
+      ],
+      "properties": {
+        "fail_if_remote_mismatch": { "const": true },
+        "fail_if_commit_mismatch": { "const": true },
+        "fail_if_worktree_dirty": { "const": true },
+        "fail_if_inventory_mismatch": { "const": true },
+        "fail_if_duplicate_path": { "const": true },
+        "fail_if_unclassified_tracked_file": { "const": true },
+        "fail_if_in_scope_path_excluded": { "const": true }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_inventory", "source_manifest", "exclusion_manifest",
+        "target_verification"
+      ],
+      "properties": {
+        "target_inventory": { "const": "artifacts/coverage/target_inventory.json" },
+        "source_manifest": { "const": "artifacts/coverage/source_manifest.jsonl" },
+        "exclusion_manifest": { "const": "artifacts/coverage/exclusion_manifest.jsonl" },
+        "target_verification": { "const": "artifacts/coverage/target_verification.json" }
+      }
+    },
+    "experiment_invalidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trigger", "action"],
+      "properties": {
+        "trigger": { "const": "any_semantic_target_lock_change" },
+        "action": { "const": "create_new_experiment_id_and_rebuild_all_downstream_artifacts" }
+      }
+    }
+  }
+}

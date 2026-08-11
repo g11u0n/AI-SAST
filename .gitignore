@@ -1,0 +1,15 @@
+.target-src/
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+data/cache/
+
+# Generated scratch output is ignored. Evidence, prompts, reports, and
+# evaluation results are intentionally not ignored because they are
+# submission artifacts.
+tmp/
+*.tmp

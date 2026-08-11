@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "repository_url": "https://github.com/raspberrypi/userland.git",
+  "commit_sha": "a54a0dbb2b8dcf9bafdddfc9a9374fb51d97e976",
+  "scope_sha256": "2d7910c98cd57192f9c80436d18d39be247a8b8e6705b98f831ee747b1d1d50a",
+  "scope_hash_canonical_json": "{\"allow_submodules\":false,\"analysis_content_source\":\"git_blob_at_locked_commit\",\"build_reachability_filter\":\"disabled\",\"bundled_opensource\":\"include\",\"commit_sha\":\"a54a0dbb2b8dcf9bafdddfc9a9374fb51d97e976\",\"examples\":\"include\",\"exclude\":[],\"file_count\":654,\"follow_symlinks\":false,\"include\":[\"**/*.c\",\"**/*.cpp\",\"**/*.h\"],\"language_family\":[\"c\",\"cpp\"],\"path_case_sensitive\":true,\"precedence\":\"exclude_wins\",\"preprocessor_branch_filter\":\"disabled\",\"repository_url\":\"https://github.com/raspberrypi/userland.git\",\"require_clean_worktree\":true,\"require_exact_commit\":true,\"schema_version\":1,\"source\":\"git_tree\",\"target_file_list_sha256\":\"fb00da1a82fcd1e02b436c4f58cbd8391094901da8450b9881063db3558e6057\",\"tests\":\"include\",\"tracked_only\":true}",
+  "checks": {
+    "origin_matches": true,
+    "exact_commit": true,
+    "clean_worktree": true,
+    "submodule_count": 0,
+    "tracked_files": 830,
+    "in_scope_files": 654,
+    "out_of_scope_files": 176,
+    "duplicate_paths": 0,
+    "unclassified_paths": 0,
+    "excluded_in_scope_paths": 0
+  }
+}
