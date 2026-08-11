@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "anchor": {
+      "additionalProperties": false,
+      "properties": {
+        "start_byte": {"minimum": 0, "type": "integer"},
+        "end_byte_exclusive": {"minimum": 1, "type": "integer"},
+        "start_line": {"minimum": 1, "type": "integer"},
+        "start_column_byte": {"minimum": 0, "type": "integer"},
+        "end_line": {"minimum": 1, "type": "integer"},
+        "end_point_line": {"minimum": 1, "type": "integer"},
+        "end_column_byte_exclusive": {"minimum": 0, "type": "integer"},
+        "source_span_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+        "chunk_id": {"pattern": "^C1-[0-9a-f]{24}$", "type": "string"},
+        "chunk_content_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"}
+      },
+      "required": [
+        "start_byte", "end_byte_exclusive", "start_line", "start_column_byte",
+        "end_line", "end_point_line", "end_column_byte_exclusive",
+        "source_span_sha256", "chunk_id", "chunk_content_sha256"
+      ],
+      "type": "object"
+    },
+    "extent": {
+      "additionalProperties": false,
+      "properties": {
+        "start_byte": {"minimum": 0, "type": "integer"},
+        "end_byte_exclusive": {"minimum": 1, "type": "integer"},
+        "start_line": {"minimum": 1, "type": "integer"},
+        "start_column_byte": {"minimum": 0, "type": "integer"},
+        "end_line": {"minimum": 1, "type": "integer"},
+        "end_point_line": {"minimum": 1, "type": "integer"},
+        "end_column_byte_exclusive": {"minimum": 0, "type": "integer"},
+        "source_span_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+        "first_chunk_id": {"pattern": "^C1-[0-9a-f]{24}$", "type": "string"},
+        "last_chunk_id": {"pattern": "^C1-[0-9a-f]{24}$", "type": "string"},
+        "chunk_count": {"minimum": 1, "type": "integer"}
+      },
+      "required": [
+        "start_byte", "end_byte_exclusive", "start_line", "start_column_byte",
+        "end_line", "end_point_line", "end_column_byte_exclusive",
+        "source_span_sha256", "first_chunk_id", "last_chunk_id", "chunk_count"
+      ],
+      "type": "object"
+    },
+    "facts": {
+      "additionalProperties": false,
+      "properties": {
+        "array_accesses": {"minimum": 0, "type": "integer"},
+        "assignments": {"minimum": 0, "type": "integer"},
+        "calls": {"minimum": 0, "type": "integer"},
+        "casts": {"minimum": 0, "type": "integer"},
+        "conditions": {"minimum": 0, "type": "integer"},
+        "field_accesses": {"minimum": 0, "type": "integer"},
+        "gotos": {"minimum": 0, "type": "integer"},
+        "loops": {"minimum": 0, "type": "integer"},
+        "pointer_operations": {"minimum": 0, "type": "integer"},
+        "returns": {"minimum": 0, "type": "integer"},
+        "sizeof_expressions": {"minimum": 0, "type": "integer"},
+        "updates": {"minimum": 0, "type": "integer"}
+      },
+      "required": [
+        "array_accesses", "assignments", "calls", "casts", "conditions",
+        "field_accesses", "gotos", "loops", "pointer_operations", "returns",
+        "sizeof_expressions", "updates"
+      ],
+      "type": "object"
+    },
+    "reference": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {"minLength": 1, "type": "string"},
+        "git_blob_oid": {"pattern": "^[0-9a-f]{40}$", "type": "string"},
+        "anchor": {"$ref": "#/$defs/anchor"},
+        "extent": {"$ref": "#/$defs/extent"}
+      },
+      "required": ["path", "git_blob_oid", "anchor", "extent"],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1, "type": "integer"},
+    "target_commit_sha": {"pattern": "^[0-9a-f]{40}$", "type": "string"},
+    "target_scope_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "index_contract_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "path": {"minLength": 1, "type": "string"},
+    "git_blob_oid": {"pattern": "^[0-9a-f]{40}$", "type": "string"},
+    "symbol_id": {"pattern": "^S1-[0-9a-f]{24}$", "type": "string"},
+    "symbol_identity_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "name": {"minLength": 1, "type": "string"},
+    "qualified_name": {"minLength": 1, "type": "string"},
+    "symbol_kind": {
+      "enum": [
+        "FUNCTION", "GLOBAL_VARIABLE", "TYPEDEF", "STRUCT", "UNION", "ENUM",
+        "CLASS", "NAMESPACE", "MACRO"
+      ]
+    },
+    "role": {"enum": ["DEFINITION", "DECLARATION"]},
+    "signature": {"maxLength": 512, "type": "string"},
+    "signature_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "signature_truncated": {"type": "boolean"},
+    "parameters": {
+      "items": {"maxLength": 192, "type": "string"},
+      "type": "array"
+    },
+    "parameter_count": {"minimum": 0, "type": "integer"},
+    "linkage": {
+      "enum": [
+        "INTERNAL", "UNSPECIFIED", "TYPE_SCOPE", "PREPROCESSOR",
+        "NAMESPACE_SCOPE"
+      ]
+    },
+    "conditional_compilation_depth": {"minimum": 0, "type": "integer"},
+    "ast_facts": {"$ref": "#/$defs/facts"},
+    "reference": {"$ref": "#/$defs/reference"}
+  },
+  "required": [
+    "schema_version", "target_commit_sha", "target_scope_sha256",
+    "index_contract_sha256", "path", "git_blob_oid", "symbol_id",
+    "symbol_identity_sha256", "name", "qualified_name", "symbol_kind", "role",
+    "signature", "signature_sha256", "signature_truncated", "parameters",
+    "parameter_count", "linkage", "conditional_compilation_depth", "ast_facts",
+    "reference"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1, "type": "integer"},
+    "target_commit_sha": {"pattern": "^[0-9a-f]{40}$", "type": "string"},
+    "target_scope_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "index_contract_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "path": {"minLength": 1, "type": "string"},
+    "git_blob_oid": {"pattern": "^[0-9a-f]{40}$", "type": "string"},
+    "language": {"enum": ["c", "cpp"]},
+    "source_encoding": {"enum": ["utf-8", "cp1252"]},
+    "phase2_parse_outcome": {"enum": ["PARSE_SUCCESS", "FALLBACK_SUCCESS"]},
+    "index_status": {"enum": ["INDEXED", "PARTIAL_DIAGNOSTIC", "NO_AST_NON_UTF8"]},
+    "diagnostics": {
+      "additionalProperties": false,
+      "properties": {
+        "error_nodes": {"minimum": 0, "type": "integer"},
+        "missing_nodes": {"minimum": 0, "type": "integer"}
+      },
+      "required": ["error_nodes", "missing_nodes"],
+      "type": "object"
+    },
+    "raw_content_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "raw_size_bytes": {"minimum": 1, "type": "integer"},
+    "chunk_count": {"minimum": 1, "type": "integer"},
+    "symbol_count": {"minimum": 0, "type": "integer"},
+    "call_count": {"minimum": 0, "type": "integer"},
+    "include_count": {"minimum": 0, "type": "integer"}
+  },
+  "required": [
+    "schema_version", "target_commit_sha", "target_scope_sha256",
+    "index_contract_sha256", "path", "git_blob_oid", "language",
+    "source_encoding", "phase2_parse_outcome", "index_status", "diagnostics",
+    "raw_content_sha256", "raw_size_bytes", "chunk_count", "symbol_count",
+    "call_count", "include_count"
+  ],
+  "type": "object"
+}

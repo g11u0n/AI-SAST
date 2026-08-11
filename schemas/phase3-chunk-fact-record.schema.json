@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1, "type": "integer"},
+    "target_commit_sha": {"pattern": "^[0-9a-f]{40}$", "type": "string"},
+    "target_scope_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "index_contract_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "path": {"minLength": 1, "type": "string"},
+    "git_blob_oid": {"pattern": "^[0-9a-f]{40}$", "type": "string"},
+    "chunk_id": {"pattern": "^C1-[0-9a-f]{24}$", "type": "string"},
+    "chunk_content_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "ast_available": {"type": "boolean"},
+    "extraction_mode": {
+      "enum": ["CLEAN_AST", "PARTIAL_DIAGNOSTIC_AST", "NO_AST_NON_UTF8"]
+    },
+    "node_counts": {
+      "additionalProperties": false,
+      "properties": {
+        "array_accesses": {"minimum": 0, "type": "integer"},
+        "assignments": {"minimum": 0, "type": "integer"},
+        "calls": {"minimum": 0, "type": "integer"},
+        "casts": {"minimum": 0, "type": "integer"},
+        "conditions": {"minimum": 0, "type": "integer"},
+        "field_accesses": {"minimum": 0, "type": "integer"},
+        "gotos": {"minimum": 0, "type": "integer"},
+        "loops": {"minimum": 0, "type": "integer"},
+        "pointer_operations": {"minimum": 0, "type": "integer"},
+        "returns": {"minimum": 0, "type": "integer"},
+        "sizeof_expressions": {"minimum": 0, "type": "integer"},
+        "updates": {"minimum": 0, "type": "integer"}
+      },
+      "required": [
+        "array_accesses", "assignments", "calls", "casts", "conditions",
+        "field_accesses", "gotos", "loops", "pointer_operations", "returns",
+        "sizeof_expressions", "updates"
+      ],
+      "type": "object"
+    },
+    "defined_symbol_ids": {
+      "items": {"pattern": "^S1-[0-9a-f]{24}$", "type": "string"},
+      "type": "array",
+      "uniqueItems": true
+    },
+    "outgoing_call_ids": {
+      "items": {"pattern": "^E1-[0-9a-f]{24}$", "type": "string"},
+      "type": "array",
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "schema_version", "target_commit_sha", "target_scope_sha256",
+    "index_contract_sha256", "path", "git_blob_oid", "chunk_id",
+    "chunk_content_sha256", "ast_available", "extraction_mode", "node_counts",
+    "defined_symbol_ids", "outgoing_call_ids"
+  ],
+  "type": "object"
+}

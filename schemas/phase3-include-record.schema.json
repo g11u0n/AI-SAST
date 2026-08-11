@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1, "type": "integer"},
+    "target_commit_sha": {"pattern": "^[0-9a-f]{40}$", "type": "string"},
+    "target_scope_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "index_contract_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "path": {"minLength": 1, "type": "string"},
+    "git_blob_oid": {"pattern": "^[0-9a-f]{40}$", "type": "string"},
+    "include_id": {"pattern": "^I1-[0-9a-f]{24}$", "type": "string"},
+    "include_identity_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "include_spelling": {"minLength": 1, "type": "string"},
+    "normalized_target": {"type": "string"},
+    "conditional_compilation_depth": {"minimum": 0, "type": "integer"},
+    "resolution": {
+      "enum": [
+        "UNIQUE_PATH_CANDIDATE", "AMBIGUOUS_PATH_CANDIDATES",
+        "UNRESOLVED_WITHOUT_BUILD_CONFIG"
+      ]
+    },
+    "resolved_paths": {
+      "items": {"minLength": 1, "type": "string"},
+      "type": "array",
+      "uniqueItems": true
+    },
+    "reference": {
+      "$ref": "phase3-symbol-record.schema.json#/$defs/reference"
+    }
+  },
+  "required": [
+    "schema_version", "target_commit_sha", "target_scope_sha256",
+    "index_contract_sha256", "path", "git_blob_oid", "include_id",
+    "include_identity_sha256", "include_spelling", "normalized_target",
+    "conditional_compilation_depth", "resolution", "resolved_paths", "reference"
+  ],
+  "type": "object"
+}

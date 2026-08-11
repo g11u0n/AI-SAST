@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1, "type": "integer"},
+    "target_commit_sha": {"pattern": "^[0-9a-f]{40}$", "type": "string"},
+    "target_scope_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "index_contract_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "path": {"minLength": 1, "type": "string"},
+    "git_blob_oid": {"pattern": "^[0-9a-f]{40}$", "type": "string"},
+    "call_id": {"pattern": "^E1-[0-9a-f]{24}$", "type": "string"},
+    "call_identity_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "caller_symbol_id": {"pattern": "^S1-[0-9a-f]{24}$", "type": "string"},
+    "callee_name": {"type": ["string", "null"]},
+    "callee_expression": {"maxLength": 256, "type": "string"},
+    "callee_expression_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "callee_expression_truncated": {"type": "boolean"},
+    "syntactic_kind": {
+      "enum": ["DIRECT_IDENTIFIER", "QUALIFIED", "MEMBER", "INDIRECT"]
+    },
+    "conditional_compilation_depth": {"minimum": 0, "type": "integer"},
+    "candidate_definition_ids": {
+      "items": {"pattern": "^S1-[0-9a-f]{24}$", "type": "string"},
+      "type": "array",
+      "uniqueItems": true
+    },
+    "declaration_candidate_ids": {
+      "items": {"pattern": "^S1-[0-9a-f]{24}$", "type": "string"},
+      "type": "array",
+      "uniqueItems": true
+    },
+    "resolution": {
+      "enum": [
+        "UNIQUE_FILE_LOCAL_CANDIDATE", "UNIQUE_REPOSITORY_CANDIDATE",
+        "AMBIGUOUS", "UNRESOLVED_EXTERNAL", "INDIRECT_OR_DYNAMIC",
+        "MEMBER_OR_QUALIFIED", "MACRO_OR_FUNCTION_AMBIGUOUS"
+      ]
+    },
+    "reference": {
+      "$ref": "phase3-symbol-record.schema.json#/$defs/reference"
+    }
+  },
+  "required": [
+    "schema_version", "target_commit_sha", "target_scope_sha256",
+    "index_contract_sha256", "path", "git_blob_oid", "call_id",
+    "call_identity_sha256", "caller_symbol_id", "callee_name",
+    "callee_expression", "callee_expression_sha256",
+    "callee_expression_truncated", "syntactic_kind",
+    "conditional_compilation_depth", "candidate_definition_ids",
+    "declaration_candidate_ids", "resolution", "reference"
+  ],
+  "type": "object"
+}

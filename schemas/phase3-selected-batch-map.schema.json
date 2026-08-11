@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1, "type": "integer"},
+    "index_contract_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "selection_sha256": {"pattern": "^[0-9a-f]{64}$", "type": "string"},
+    "selection_seed": {"type": "integer"},
+    "selected_batch_ids": {
+      "items": {"pattern": "^B1-[0-9a-f]{24}$", "type": "string"},
+      "maxItems": 3,
+      "minItems": 3,
+      "type": "array",
+      "uniqueItems": true
+    },
+    "selection_order_preserved": {"const": true, "type": "boolean"},
+    "batch_reselection_performed": {"const": false, "type": "boolean"},
+    "batches": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "rank": {"maximum": 3, "minimum": 1, "type": "integer"},
+          "batch_id": {"pattern": "^B1-[0-9a-f]{24}$", "type": "string"},
+          "chunk_ids": {
+            "items": {"pattern": "^C1-[0-9a-f]{24}$", "type": "string"},
+            "minItems": 1,
+            "type": "array",
+            "uniqueItems": true
+          },
+          "payload_utf8_bytes": {"maximum": 3840, "minimum": 1, "type": "integer"},
+          "anchor_symbol_ids": {
+            "items": {"pattern": "^S1-[0-9a-f]{24}$", "type": "string"},
+            "type": "array",
+            "uniqueItems": true
+          },
+          "enclosing_symbol_ids": {
+            "items": {"pattern": "^S1-[0-9a-f]{24}$", "type": "string"},
+            "type": "array",
+            "uniqueItems": true
+          },
+          "call_ids": {
+            "items": {"pattern": "^E1-[0-9a-f]{24}$", "type": "string"},
+            "type": "array",
+            "uniqueItems": true
+          },
+          "include_ids": {
+            "items": {"pattern": "^I1-[0-9a-f]{24}$", "type": "string"},
+            "type": "array",
+            "uniqueItems": true
+          },
+          "chunks_without_supported_facts": {
+            "items": {"pattern": "^C1-[0-9a-f]{24}$", "type": "string"},
+            "type": "array",
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "rank", "batch_id", "chunk_ids", "payload_utf8_bytes",
+          "anchor_symbol_ids", "enclosing_symbol_ids", "call_ids", "include_ids",
+          "chunks_without_supported_facts"
+        ],
+        "type": "object"
+      },
+      "maxItems": 3,
+      "minItems": 3,
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema_version", "index_contract_sha256", "selection_sha256",
+    "selection_seed", "selected_batch_ids", "selection_order_preserved",
+    "batch_reselection_performed", "batches"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1, "type": "integer"},
+    "contract_version": {"const": "compact-code-index-v1"},
+    "target": {"type": "object"},
+    "experiment": {"type": "object"},
+    "input_binding": {"type": "object"},
+    "runtime": {"type": "object"},
+    "extraction": {"type": "object"},
+    "resolution": {"type": "object"},
+    "identity": {"type": "object"},
+    "serialization": {"type": "object"},
+    "evaluation": {"type": "object"}
+  },
+  "required": [
+    "schema_version", "contract_version", "target", "experiment",
+    "input_binding", "runtime", "extraction", "resolution", "identity",
+    "serialization", "evaluation"
+  ],
+  "type": "object"
+}
