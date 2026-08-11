@@ -486,10 +486,10 @@ def build_artifact_bytes(
     chunk_path = root / "artifacts" / "chunking" / "chunk_manifest.jsonl"
     batch_path = root / "artifacts" / "chunking" / "batch_manifest.jsonl"
     selection_path = root / "artifacts" / "evaluation" / "selection.json"
-    source_records = load_jsonl(source_path)
-    file_records = load_jsonl(file_path)
-    chunk_records = load_jsonl(chunk_path)
-    batch_records = load_jsonl(batch_path)
+    source_records = load_jsonl(source_path, canonical=False)
+    file_records = load_jsonl(file_path, canonical=False)
+    chunk_records = load_jsonl(chunk_path, canonical=False)
+    batch_records = load_jsonl(batch_path, canonical=False)
     selection = load_json(selection_path, canonical=True)
     _validate_inputs(
         root=root,
