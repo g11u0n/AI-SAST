@@ -1,0 +1,107 @@
+{
+  "captured_at_utc": "2026-08-11T10:09:08.357749Z",
+  "status": "PASS",
+  "request": {
+    "model": "qwen2.5-coder:7b-instruct-q4_K_M",
+    "messages": [
+      {
+        "role": "system",
+        "content": "Return only JSON matching the provided schema."
+      },
+      {
+        "role": "user",
+        "content": "Preflight check. Set status to OK, backend to ollama, and seed_echo to 20260811."
+      }
+    ],
+    "format": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "OK"
+          ]
+        },
+        "backend": {
+          "type": "string",
+          "enum": [
+            "ollama"
+          ]
+        },
+        "seed_echo": {
+          "type": "integer",
+          "enum": [
+            20260811
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "backend",
+        "seed_echo"
+      ],
+      "additionalProperties": false
+    },
+    "options": {
+      "num_ctx": 8192,
+      "num_predict": 1280,
+      "temperature": 0.0,
+      "seed": 20260811,
+      "top_k": 20,
+      "top_p": 0.8,
+      "min_p": 0.0,
+      "repeat_last_n": 64,
+      "repeat_penalty": 1.05,
+      "stop": []
+    },
+    "stream": false,
+    "keep_alive": "5m"
+  },
+  "responses": [
+    {
+      "model": "qwen2.5-coder:7b-instruct-q4_K_M",
+      "created_at": "2026-08-11T10:04:06.8049996Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"status\": \"OK\",\n  \"backend\": \"ollama\",\n  \"seed_echo\": 20260811\n}"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 12867636800,
+      "load_duration": 8008323900,
+      "prompt_eval_count": 50,
+      "prompt_eval_duration": 1135989000,
+      "eval_count": 33,
+      "eval_duration": 3697989000
+    },
+    {
+      "model": "qwen2.5-coder:7b-instruct-q4_K_M",
+      "created_at": "2026-08-11T10:04:11.1012523Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"status\": \"OK\",\n  \"backend\": \"ollama\",\n  \"seed_echo\": 20260811\n}"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4287958300,
+      "load_duration": 233961000,
+      "prompt_eval_count": 50,
+      "prompt_eval_duration": 159941000,
+      "eval_count": 33,
+      "eval_duration": 3887897000
+    }
+  ],
+  "parsed_outputs": [
+    {
+      "status": "OK",
+      "backend": "ollama",
+      "seed_echo": 20260811
+    },
+    {
+      "status": "OK",
+      "backend": "ollama",
+      "seed_echo": 20260811
+    }
+  ],
+  "same_seed_canonical_output_equal": true
+}

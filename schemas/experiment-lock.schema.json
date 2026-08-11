@@ -1,0 +1,753 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-sast.local/schemas/experiment-lock.schema.json",
+  "title": "AI SAST Phase 1 experiment lock",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "identity",
+    "semantic",
+    "evidence",
+    "invalidation"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "experiment_id",
+        "semantic_sha256",
+        "hash_domain",
+        "canonicalization"
+      ],
+      "properties": {
+        "experiment_id": {
+          "type": "string",
+          "pattern": "exp-v1-[0-9a-f]{24}"
+        },
+        "semantic_sha256": {
+          "type": "string",
+          "pattern": "[0-9a-f]{64}"
+        },
+        "hash_domain": {
+          "const": "ai-sast-experiment-semantic-v1"
+        },
+        "canonicalization": {
+          "const": "utf8_sorted_keys_compact_json_allow_nan_false"
+        }
+      }
+    },
+    "semantic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lock_stage",
+        "target_binding",
+        "backend",
+        "model",
+        "runtime_profile",
+        "token_accounting",
+        "context_envelope",
+        "evaluation_contract",
+        "cache_policy"
+      ],
+      "properties": {
+        "lock_stage": {
+          "type": "string",
+          "enum": [
+            "preflight_locked",
+            "evaluation_frozen"
+          ]
+        },
+        "target_binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target_commit_sha",
+            "target_scope_sha256",
+            "target_file_list_sha256"
+          ],
+          "properties": {
+            "target_commit_sha": {
+              "type": "string",
+              "pattern": "[0-9a-f]{40}"
+            },
+            "target_scope_sha256": {
+              "type": "string",
+              "pattern": "[0-9a-f]{64}"
+            },
+            "target_file_list_sha256": {
+              "type": "string",
+              "pattern": "[0-9a-f]{64}"
+            }
+          }
+        },
+        "backend": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "provider",
+            "base_url",
+            "ollama_version",
+            "api_routes"
+          ],
+          "properties": {
+            "provider": {
+              "const": "ollama"
+            },
+            "base_url": {
+              "type": "string",
+              "pattern": "https?://[^/]+"
+            },
+            "ollama_version": {
+              "type": "string",
+              "pattern": "[0-9]+\\.[0-9]+\\.[0-9]+"
+            },
+            "api_routes": {
+              "type": "object"
+            }
+          }
+        },
+        "model": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "manifest_digest_algorithm",
+            "manifest_digest",
+            "manifest_digest_urn",
+            "manifest_size_bytes",
+            "format",
+            "family",
+            "parameter_size",
+            "quantization_level",
+            "native_context_length",
+            "native_context_key",
+            "capabilities",
+            "chat_template_sha256",
+            "model_parameters_sha256",
+            "model_parameters_empty",
+            "tokenizer"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "manifest_digest_algorithm": {
+              "const": "sha256"
+            },
+            "manifest_digest": {
+              "type": "string",
+              "pattern": "[0-9a-f]{64}"
+            },
+            "manifest_digest_urn": {
+              "type": "string",
+              "pattern": "sha256:[0-9a-f]{64}"
+            },
+            "manifest_size_bytes": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "format": {
+              "type": "string"
+            },
+            "family": {
+              "type": "string"
+            },
+            "parameter_size": {
+              "type": "string"
+            },
+            "quantization_level": {
+              "type": "string"
+            },
+            "native_context_length": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "native_context_key": {
+              "type": "string"
+            },
+            "capabilities": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "chat_template_sha256": {
+              "type": "string",
+              "pattern": "[0-9a-f]{64}"
+            },
+            "model_parameters_sha256": {
+              "type": "string",
+              "pattern": "[0-9a-f]{64}"
+            },
+            "model_parameters_empty": {
+              "type": "boolean"
+            },
+            "tokenizer": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "binding",
+                "metadata_sha256",
+                "metadata_keys",
+                "vocabulary_entries",
+                "merge_entries"
+              ],
+              "properties": {
+                "binding": {
+                  "const": "model_embedded_tokenizer_bound_by_manifest_digest"
+                },
+                "metadata_sha256": {
+                  "type": "string",
+                  "pattern": "[0-9a-f]{64}"
+                },
+                "metadata_keys": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "vocabulary_entries": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "merge_entries": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          }
+        },
+        "runtime_profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "transport",
+            "options",
+            "structured_output",
+            "retry",
+            "timeouts_seconds"
+          ],
+          "properties": {
+            "transport": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "stream",
+                "keep_alive",
+                "stateless_per_call",
+                "max_concurrency",
+                "loopback_only",
+                "max_response_bytes"
+              ],
+              "properties": {
+                "stream": {
+                  "const": false
+                },
+                "keep_alive": {
+                  "type": "string",
+                  "pattern": "[1-9][0-9]*[smh]"
+                },
+                "stateless_per_call": {
+                  "const": true
+                },
+                "max_concurrency": {
+                  "const": 1
+                },
+                "loopback_only": {
+                  "const": true
+                },
+                "max_response_bytes": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "options": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "num_ctx",
+                "num_predict",
+                "temperature",
+                "seed",
+                "top_k",
+                "top_p",
+                "min_p",
+                "repeat_last_n",
+                "repeat_penalty",
+                "stop"
+              ],
+              "properties": {
+                "num_ctx": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "num_predict": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "temperature": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "seed": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "top_k": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "top_p": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "min_p": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "repeat_last_n": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "repeat_penalty": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "stop": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "structured_output": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "method",
+                "local_strict_json_validation",
+                "additional_properties_default"
+              ],
+              "properties": {
+                "method": {
+                  "const": "ollama_chat_format_json_schema"
+                },
+                "local_strict_json_validation": {
+                  "const": true
+                },
+                "additional_properties_default": {
+                  "const": "reject"
+                }
+              }
+            },
+            "retry": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "max_retries",
+                "total_attempts",
+                "backoff_seconds",
+                "retryable",
+                "non_retryable",
+                "reuse_same_seed"
+              ],
+              "properties": {
+                "max_retries": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "total_attempts": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "backoff_seconds": {
+                  "type": "array",
+                  "items": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                },
+                "retryable": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "non_retryable": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "reuse_same_seed": {
+                  "const": true
+                }
+              }
+            },
+            "timeouts_seconds": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "health",
+                "model_metadata",
+                "request"
+              ],
+              "properties": {
+                "health": {
+                  "type": "number",
+                  "minimum": 0.001
+                },
+                "model_metadata": {
+                  "type": "number",
+                  "minimum": 0.001
+                },
+                "request": {
+                  "type": "number",
+                  "minimum": 0.001
+                }
+              }
+            }
+          }
+        },
+        "token_accounting": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "tokenizer_identity",
+            "authoritative_input_counter",
+            "authoritative_output_counter",
+            "component_counter",
+            "pre_request_component_gate",
+            "batch_budget_counter",
+            "batch_budget_unit_rule",
+            "include_all_success_failure_retry_attempts",
+            "missing_provider_counter"
+          ],
+          "properties": {
+            "tokenizer_identity": {
+              "const": "model_embedded_tokenizer_bound_by_full_manifest_digest"
+            },
+            "authoritative_input_counter": {
+              "const": "ollama.prompt_eval_count"
+            },
+            "authoritative_output_counter": {
+              "const": "ollama.eval_count"
+            },
+            "component_counter": {
+              "const": "provider_prompt_eval_cumulative_prefix_differential_v1"
+            },
+            "pre_request_component_gate": {
+              "const": "utf8_byte_upper_bound_v1"
+            },
+            "batch_budget_counter": {
+              "const": "utf8_byte_upper_bound_v1"
+            },
+            "batch_budget_unit_rule": {
+              "const": "one_budget_unit_per_utf8_byte"
+            },
+            "include_all_success_failure_retry_attempts": {
+              "const": true
+            },
+            "missing_provider_counter": {
+              "const": "unavailable_and_comparison_invalid"
+            }
+          }
+        },
+        "context_envelope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "hard_limit_tokens",
+            "component_caps",
+            "input_cap_tokens",
+            "overflow_policy",
+            "component_counter_enforcement",
+            "high_water_probe_minimum_input_utilization"
+          ],
+          "properties": {
+            "hard_limit_tokens": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "component_caps": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "system_instruction_tokens",
+                "user_instruction_tokens",
+                "evidence_or_raw_batch_tokens",
+                "tool_and_response_schema_tokens",
+                "structured_state_tokens",
+                "chat_template_overhead_tokens",
+                "reserved_output_tokens",
+                "safety_margin_tokens"
+              ],
+              "properties": {
+                "system_instruction_tokens": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "user_instruction_tokens": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "evidence_or_raw_batch_tokens": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "tool_and_response_schema_tokens": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "structured_state_tokens": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "chat_template_overhead_tokens": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "reserved_output_tokens": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "safety_margin_tokens": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "input_cap_tokens": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "overflow_policy": {
+              "type": "string"
+            },
+            "component_counter_enforcement": {
+              "type": "string"
+            },
+            "high_water_probe_minimum_input_utilization": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "evaluation_contract": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "arms",
+            "shared_runtime_profile",
+            "batch_manifest_artifact",
+            "shared_selection_artifact",
+            "batch_count",
+            "selection_seed",
+            "selection_algorithm",
+            "selection_hash_domain",
+            "selection_seed_encoding",
+            "selection_preimage",
+            "population",
+            "freeze_before_any_llm_result",
+            "replace_after_result_observation",
+            "arm_difference_only",
+            "proposed_handoff",
+            "baseline_handoff",
+            "evaluation_binding_stage"
+          ],
+          "properties": {
+            "arms": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "type": "string"
+              }
+            },
+            "shared_runtime_profile": {
+              "const": "#/semantic/runtime_profile"
+            },
+            "batch_manifest_artifact": {
+              "const": "artifacts/chunking/batch_manifest.jsonl"
+            },
+            "shared_selection_artifact": {
+              "const": "artifacts/evaluation/selection.json"
+            },
+            "batch_count": {
+              "const": 3
+            },
+            "selection_seed": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "selection_algorithm": {
+              "type": "string"
+            },
+            "selection_hash_domain": {
+              "const": "ai-sast-batch-selection-v1"
+            },
+            "selection_seed_encoding": {
+              "const": "unsigned_base10_ascii"
+            },
+            "selection_preimage": {
+              "const": "domain_utf8_nul_seed_ascii_nul_batch_id_utf8"
+            },
+            "population": {
+              "const": "all_phase2_batches"
+            },
+            "freeze_before_any_llm_result": {
+              "const": true
+            },
+            "replace_after_result_observation": {
+              "const": false
+            },
+            "arm_difference_only": {
+              "const": "handoff_payload_policy"
+            },
+            "proposed_handoff": {
+              "const": "reference_only_evidence_pull"
+            },
+            "baseline_handoff": {
+              "const": "repeat_full_raw_context"
+            },
+            "evaluation_binding_stage": {
+              "const": "phase2_after_batch_manifest"
+            }
+          }
+        },
+        "evaluation_binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "batch_manifest_path",
+            "batch_manifest_sha256",
+            "selection_path",
+            "selection_sha256"
+          ],
+          "properties": {
+            "batch_manifest_path": {
+              "const": "artifacts/chunking/batch_manifest.jsonl"
+            },
+            "batch_manifest_sha256": {
+              "type": "string",
+              "pattern": "[0-9a-f]{64}"
+            },
+            "selection_path": {
+              "const": "artifacts/evaluation/selection.json"
+            },
+            "selection_sha256": {
+              "type": "string",
+              "pattern": "[0-9a-f]{64}"
+            }
+          }
+        },
+        "cache_policy": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "primary_comparison",
+            "llm_result_cache_enabled",
+            "chunk_index_retrieval_cache_metric"
+          ],
+          "properties": {
+            "primary_comparison": {
+              "const": "cold_llm_result_cache"
+            },
+            "llm_result_cache_enabled": {
+              "const": false
+            },
+            "chunk_index_retrieval_cache_metric": {
+              "const": "separate_non_token_optimization"
+            }
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "captured_at_utc",
+        "preflight_status",
+        "artifacts"
+      ],
+      "properties": {
+        "captured_at_utc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "preflight_status": {
+          "const": "PASS"
+        },
+        "artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "name",
+              "path",
+              "sha256",
+              "size_bytes"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "[0-9a-f]{64}"
+              },
+              "size_bytes": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "invalidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trigger",
+        "action",
+        "volatile_evidence_changes_experiment_id",
+        "phase2_evaluation_binding_changes_experiment_id"
+      ],
+      "properties": {
+        "trigger": {
+          "const": "any_semantic_experiment_lock_change"
+        },
+        "action": {
+          "const": "issue_new_experiment_id_and_rebuild_downstream_artifacts"
+        },
+        "volatile_evidence_changes_experiment_id": {
+          "const": false
+        },
+        "phase2_evaluation_binding_changes_experiment_id": {
+          "const": true
+        }
+      }
+    }
+  }
+}

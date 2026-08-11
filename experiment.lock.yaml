@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "identity": {
+    "experiment_id": "exp-v1-66575973a148987d741ba3f9",
+    "semantic_sha256": "66575973a148987d741ba3f95fc492fd141e4a30b13ce7262d054f0d02209ba7",
+    "hash_domain": "ai-sast-experiment-semantic-v1",
+    "canonicalization": "utf8_sorted_keys_compact_json_allow_nan_false"
+  },
+  "semantic": {
+    "lock_stage": "preflight_locked",
+    "target_binding": {
+      "target_commit_sha": "a54a0dbb2b8dcf9bafdddfc9a9374fb51d97e976",
+      "target_scope_sha256": "2d7910c98cd57192f9c80436d18d39be247a8b8e6705b98f831ee747b1d1d50a",
+      "target_file_list_sha256": "fb00da1a82fcd1e02b436c4f58cbd8391094901da8450b9881063db3558e6057"
+    },
+    "backend": {
+      "provider": "ollama",
+      "base_url": "http://127.0.0.1:11434",
+      "ollama_version": "0.32.8",
+      "api_routes": {
+        "version": "/api/version",
+        "tags": "/api/tags",
+        "show": "/api/show",
+        "chat": "/api/chat",
+        "running_models": "/api/ps"
+      }
+    },
+    "model": {
+      "name": "qwen2.5-coder:7b-instruct-q4_K_M",
+      "manifest_digest_algorithm": "sha256",
+      "manifest_digest": "dae161e27b0e90dd1856c8bb3209201fd6736d8eb66298e75ed87571486f4364",
+      "manifest_digest_urn": "sha256:dae161e27b0e90dd1856c8bb3209201fd6736d8eb66298e75ed87571486f4364",
+      "manifest_size_bytes": 4683087561,
+      "format": "gguf",
+      "family": "qwen2",
+      "parameter_size": "7.6B",
+      "quantization_level": "Q4_K_M",
+      "native_context_length": 32768,
+      "native_context_key": "qwen2.context_length",
+      "capabilities": [
+        "completion",
+        "insert",
+        "tools"
+      ],
+      "chat_template_sha256": "1e65450c30670713aa47fe23e8b9662bdf4065e81cc8e3cbfaa98924fcc0d320",
+      "model_parameters_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "model_parameters_empty": true,
+      "tokenizer": {
+        "binding": "model_embedded_tokenizer_bound_by_manifest_digest",
+        "metadata_sha256": "e2f6ef35a3ed39068530a01bc8b7f59d334fb0bde8fa0f0c1d0c9a464b50928d",
+        "metadata_keys": [
+          "tokenizer.ggml.add_bos_token",
+          "tokenizer.ggml.bos_token_id",
+          "tokenizer.ggml.eos_token_id",
+          "tokenizer.ggml.merges",
+          "tokenizer.ggml.model",
+          "tokenizer.ggml.padding_token_id",
+          "tokenizer.ggml.pre",
+          "tokenizer.ggml.token_type",
+          "tokenizer.ggml.tokens"
+        ],
+        "vocabulary_entries": 152064,
+        "merge_entries": 151387
+      }
+    },
+    "runtime_profile": {
+      "transport": {
+        "stream": false,
+        "keep_alive": "5m",
+        "stateless_per_call": true,
+        "max_concurrency": 1,
+        "loopback_only": true,
+        "max_response_bytes": 16777216
+      },
+      "options": {
+        "num_ctx": 8192,
+        "num_predict": 1280,
+        "temperature": 0.0,
+        "seed": 20260811,
+        "top_k": 20,
+        "top_p": 0.8,
+        "min_p": 0.0,
+        "repeat_last_n": 64,
+        "repeat_penalty": 1.05,
+        "stop": []
+      },
+      "structured_output": {
+        "method": "ollama_chat_format_json_schema",
+        "local_strict_json_validation": true,
+        "additional_properties_default": "reject"
+      },
+      "retry": {
+        "max_retries": 2,
+        "total_attempts": 3,
+        "backoff_seconds": [
+          1.0,
+          2.0
+        ],
+        "retryable": [
+          "connection_error",
+          "timeout",
+          "http_429",
+          "http_5xx"
+        ],
+        "non_retryable": [
+          "http_4xx_except_429",
+          "digest_mismatch",
+          "schema_error"
+        ],
+        "reuse_same_seed": true
+      },
+      "timeouts_seconds": {
+        "health": 10.0,
+        "model_metadata": 30.0,
+        "request": 600.0
+      }
+    },
+    "token_accounting": {
+      "tokenizer_identity": "model_embedded_tokenizer_bound_by_full_manifest_digest",
+      "authoritative_input_counter": "ollama.prompt_eval_count",
+      "authoritative_output_counter": "ollama.eval_count",
+      "component_counter": "provider_prompt_eval_cumulative_prefix_differential_v1",
+      "pre_request_component_gate": "utf8_byte_upper_bound_v1",
+      "batch_budget_counter": "utf8_byte_upper_bound_v1",
+      "batch_budget_unit_rule": "one_budget_unit_per_utf8_byte",
+      "include_all_success_failure_retry_attempts": true,
+      "missing_provider_counter": "unavailable_and_comparison_invalid"
+    },
+    "context_envelope": {
+      "hard_limit_tokens": 8192,
+      "component_caps": {
+        "system_instruction_tokens": 768,
+        "user_instruction_tokens": 256,
+        "evidence_or_raw_batch_tokens": 3840,
+        "tool_and_response_schema_tokens": 768,
+        "structured_state_tokens": 256,
+        "chat_template_overhead_tokens": 256,
+        "reserved_output_tokens": 1280,
+        "safety_margin_tokens": 768
+      },
+      "input_cap_tokens": 6144,
+      "overflow_policy": "reject_before_runtime_inference",
+      "component_counter_enforcement": "observed_prefix_deltas_each_fit_and_runtime_utf8_upper_bound_gate",
+      "high_water_probe_minimum_input_utilization": 0.75
+    },
+    "evaluation_contract": {
+      "arms": [
+        "proposed",
+        "baseline"
+      ],
+      "shared_runtime_profile": "#/semantic/runtime_profile",
+      "batch_manifest_artifact": "artifacts/chunking/batch_manifest.jsonl",
+      "shared_selection_artifact": "artifacts/evaluation/selection.json",
+      "batch_count": 3,
+      "selection_seed": 20260811,
+      "selection_algorithm": "rank_ascending_sha256(domain_nul_seed_nul_batch_id),tie_break_batch_id",
+      "selection_hash_domain": "ai-sast-batch-selection-v1",
+      "selection_seed_encoding": "unsigned_base10_ascii",
+      "selection_preimage": "domain_utf8_nul_seed_ascii_nul_batch_id_utf8",
+      "population": "all_phase2_batches",
+      "freeze_before_any_llm_result": true,
+      "replace_after_result_observation": false,
+      "arm_difference_only": "handoff_payload_policy",
+      "proposed_handoff": "reference_only_evidence_pull",
+      "baseline_handoff": "repeat_full_raw_context",
+      "evaluation_binding_stage": "phase2_after_batch_manifest"
+    },
+    "cache_policy": {
+      "primary_comparison": "cold_llm_result_cache",
+      "llm_result_cache_enabled": false,
+      "chunk_index_retrieval_cache_metric": "separate_non_token_optimization"
+    }
+  },
+  "evidence": {
+    "captured_at_utc": "2026-08-11T10:09:08.357749Z",
+    "preflight_status": "PASS",
+    "artifacts": [
+      {
+        "name": "context_envelope",
+        "path": "artifacts/preflight/context_envelope.json",
+        "sha256": "ef1209e30040cf2f85b6e374f3b7048af0998b5c8d874a94762afc09134fdc31",
+        "size_bytes": 46778
+      },
+      {
+        "name": "model_show",
+        "path": "artifacts/preflight/model_show.json",
+        "sha256": "d57e8c8fb2d80625b53f06bb6506218c99508b34626eb2630a5ecbcc2a894bb7",
+        "size_bytes": 4351
+      },
+      {
+        "name": "model_tags",
+        "path": "artifacts/preflight/model_tags.json",
+        "sha256": "073c8eb2f1b256ad112022539927e833298cf141cd507cae8f476e3244fa20a1",
+        "size_bytes": 695
+      },
+      {
+        "name": "ollama_version",
+        "path": "artifacts/preflight/ollama_version.json",
+        "sha256": "7d6e300871aa34ea973098f41cbd8f5fb86a169645449624e015d34b06577c10",
+        "size_bytes": 100
+      },
+      {
+        "name": "runtime_ps",
+        "path": "artifacts/preflight/runtime_ps.json",
+        "sha256": "3e7f5946f81bb34bc73785ee5281bca5104bf4fb1fecfa9a3e2cf4d33ddeef26",
+        "size_bytes": 337
+      },
+      {
+        "name": "structured_output_smoke",
+        "path": "artifacts/preflight/structured_output_smoke.json",
+        "sha256": "3e30f5d25a446977036f799d4d8f350e1ae125524ea9b9fbde2756878b45174f",
+        "size_bytes": 2585
+      },
+      {
+        "name": "preflight_report",
+        "path": "artifacts/preflight/preflight_report.json",
+        "sha256": "aa4f37211cf52e2598c3184d85b72534357b197694dae730fa6c883ab3fcdea5",
+        "size_bytes": 1974
+      }
+    ]
+  },
+  "invalidation": {
+    "trigger": "any_semantic_experiment_lock_change",
+    "action": "issue_new_experiment_id_and_rebuild_downstream_artifacts",
+    "volatile_evidence_changes_experiment_id": false,
+    "phase2_evaluation_binding_changes_experiment_id": true
+  }
+}

@@ -622,8 +622,10 @@ Finding은 반드시 실제 Chunk와 line 정보에 연결해야 한다.
 - 추측 금지
 - `NEED_CONTEXT`
 
-## Independent Verification
-Verifier는 Analyst의 결론을 그대로 이어받지 않고 Evidence를 다시 확인한다.
+## Role-Separated Adversarial Re-check
+Verifier는 Analyst의 결론이나 장문 reasoning을 그대로 이어받지 않고 원문 Evidence를
+다시 조회해 반증 우선으로 확인한다. 동일 Ollama 모델을 쓰는 경우 이는 통계적으로
+독립된 검증이 아니라 역할과 Context를 분리한 적대적 재검토다.
 
 ## Final Status
 ```text
@@ -669,7 +671,9 @@ v1에서 다음은 과도하게 구현하지 않는다.
 - 필요 시 Clang 계열 도구 검토 가능하나 v1에서는 복잡도를 최소화할 것
 
 ## LLM
-- 설정 파일 또는 환경변수로 Model/API 교체 가능하게 구성
+- v1 Backend는 Ollama로 고정한다. Endpoint와 설치 Model tag는 설정 가능하지만
+  full digest와 실행 옵션을 `experiment.lock.yaml`에 봉인한다. 다른 Provider는
+  future/optional 범위다.
 
 ## Storage
 초기 버전은 JSON/JSONL 파일이면 충분하다.
@@ -703,7 +707,8 @@ ai-sast/
 ├── experiment.lock.yaml
 │
 ├── schemas/
-│   └── target-lock.schema.json
+│   ├── target-lock.schema.json
+│   └── experiment-lock.schema.json
 │
 ├── artifacts/
 │   ├── coverage/
@@ -711,10 +716,22 @@ ai-sast/
 │   │   ├── source_manifest.jsonl
 │   │   ├── exclusion_manifest.jsonl
 │   │   └── target_verification.json
+│   ├── preflight/
+│   │   ├── ollama_version.json
+│   │   ├── model_tags.json
+│   │   ├── model_show.json
+│   │   ├── structured_output_smoke.json
+│   │   ├── context_envelope.json
+│   │   ├── runtime_ps.json
+│   │   └── preflight_report.json
 │   └── evaluation/
 │       └── selection.json
 │
 ├── src/
+│   ├── providers/
+│   │   ├── base.py
+│   │   └── ollama.py
+│   │
 │   ├── chunking/
 │   │   ├── parser.py
 │   │   ├── chunker.py
@@ -779,9 +796,12 @@ ai-sast/
 │   ├── lock_target.ps1
 │   ├── verify_target_lock.ps1
 │   ├── verify_target_lock.py
+│   ├── ollama_preflight.py
+│   ├── verify_experiment_lock.py
 │   └── reproduce.py
 │
 └── tests/
+    └── phase1_contract.py
 ```
 
 ---
@@ -819,6 +839,11 @@ ai-sast/
    `experiment.lock.yaml`에 봉인한다.
 4. System/User instruction, tool schema, structured state, chat-template overhead,
    reserved output, safety margin을 포함한 worst-case context envelope를 검증한다.
+
+Phase 1에는 아직 Batch가 없으므로 가짜 ID나 빈 hash를 넣지 않는다. 이 단계에서는
+선택 수 3, seed, 결과 독립 ranking, 공통 selection 경로와 결과 확인 후 교체 금지를
+고정한다. Phase 2에서 실제 Batch Manifest와 selection hash를 결합하고 semantic
+변경에 따라 새 Experiment ID를 발급한다.
 
 완료 기준:
 
@@ -1630,24 +1655,33 @@ analysis:
 
 # 31. AI Model 설정
 
-특정 Model에 종속되지 않도록 Provider Interface를 분리한다.
+v1에서 지원하고 평가하는 Runtime Backend는 Ollama다. Provider Interface는 Agent
+코드와 Backend의 의존성을 분리하기 위한 경계이며, 다른 Provider는 future/optional
+범위다.
 
 예:
 
 ```yaml
 llm:
-  provider: openai
-  model: configurable
-  temperature: low
+  provider: ollama
+  base_url: http://127.0.0.1:11434
+  model: experiment.lock.yaml에서 로드
+  model_digest: experiment.lock.yaml에서 검증
+  num_ctx: experiment.lock.yaml에서 로드
+  temperature: 0.0
+  seed: 20260811
 ```
 
 또는 환경변수:
 
 ```text
-LLM_PROVIDER=
-LLM_MODEL=
-OPENAI_API_KEY=
+LLM_PROVIDER=ollama
+OLLAMA_BASE_URL=http://127.0.0.1:11434
+OLLAMA_MODEL=<installed-model-tag>
 ```
+
+실행 직전에는 환경변수의 tag만 신뢰하지 않고 `/api/tags`의 full manifest digest를
+`experiment.lock.yaml`과 대조한다. v1에는 외부 API key가 필요하지 않다.
 
 ## 권장 원칙
 
@@ -1856,39 +1890,8 @@ Codex에게 한 번에:
 
 라고 요청하지 않는다.
 
-Phase별로 개발한다.
-
-```text
-Phase 1
-Structural Chunker 구현
-
-Phase 2
-Compact Code Index 구현
-
-Phase 3
-Retrieval Tool 구현
-
-Phase 4
-LLM Provider Interface 구현
-
-Phase 5
-Analyst Agent 구현
-
-Phase 6
-Context Agent 구현
-
-Phase 7
-Verifier Agent 구현
-
-Phase 8
-Pipeline 연결
-
-Phase 9
-Telemetry 및 Token Logging
-
-Phase 10
-3 Batch 실험 / Baseline / Report
-```
+Phase별로 개발한다. Phase 이름과 번호는 16절의 Phase 0~16 Canonical 순서만
+사용한다. 이 절에서 별도의 축약 번호를 만들지 않는다.
 
 각 Phase마다:
 
@@ -1972,7 +1975,7 @@ AI를 많이 호출하는 것이 목표가 아니다.
 
 # 39. Runtime LLM Backend: Ollama
 
-이 프로젝트의 Runtime Agent는 Prompt만으로 동작하지 않는다. 실제 추론을 수행할 LLM 실행 계층이 필요하며, v1에서는 **Ollama를 기본 Runtime Backend**로 사용한다.
+이 프로젝트의 Runtime Agent는 Prompt만으로 동작하지 않는다. 실제 추론을 수행할 LLM 실행 계층이 필요하며, v1에서 지원·평가하는 Runtime Backend는 **Ollama로 고정**한다.
 
 ```text
 Codex
@@ -2095,28 +2098,31 @@ result = llm.chat(
 
 # 43. Ollama 설정
 
-예시:
+실제 평가값은 `experiment.lock.yaml`에 고정한다. 아래는 필드 형태를 설명하는
+예시이며, 실행 코드는 Lock을 읽고 full digest까지 검증한다.
 
 ```yaml
 llm:
   provider: ollama
-  base_url: http://localhost:11434
-  model: configurable-model-name
-  temperature: 0.1
+  base_url: http://127.0.0.1:11434
+  model: qwen2.5-coder:7b-instruct-q4_K_M
+  num_ctx: 8192
+  temperature: 0.0
+  seed: 20260811
   max_retries: 2
 
 analysis:
   max_context_rounds: 3
 
 batch:
-  max_batch_tokens: configurable
+  evidence_or_raw_batch_tokens: 3840
 ```
 
 환경변수도 지원 가능하다.
 
 ```text
 LLM_PROVIDER=ollama
-OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_BASE_URL=http://127.0.0.1:11434
 OLLAMA_MODEL=<model>
 ```
 
@@ -2131,10 +2137,12 @@ OLLAMA_MODEL=<model>
 분석 시작 전에 최소한 다음을 확인한다.
 
 ```text
-[1] Ollama Server 연결 가능 여부
-[2] 설정된 Model 사용 가능 여부
-[3] Test Prompt 응답 여부
-[4] Structured JSON 응답 처리 여부
+[1] Ollama Server 및 잠긴 Version 연결 가능 여부
+[2] 설정된 Model tag와 full immutable digest 일치 여부
+[3] Native context와 실제 loaded num_ctx 일치 여부
+[4] 실제 /api/chat Test Prompt 응답 여부
+[5] 동일 seed Structured JSON 응답 및 local Schema 검증 여부
+[6] Tool Schema를 포함한 Context Envelope high-water 검증 여부
 ```
 
 실패 시 분석을 시작하지 말고 명확한 오류를 출력한다.
@@ -2411,15 +2419,15 @@ Runtime Prompt
 [ ] Token Counter / Telemetry
 
 [Runtime AI]
-[ ] OllamaProvider
-[ ] Ollama Preflight Check
+[x] OllamaProvider
+[x] Ollama Preflight Check
 [ ] Analyst Runtime Prompt
 [ ] Context Runtime Prompt
 [ ] Verifier Runtime Prompt
 [ ] Structured JSON Output
 [ ] Context Request Loop
 [ ] Evidence Pull
-[ ] Independent Verification
+[ ] Role-Separated Adversarial Re-check
 
 [Evaluation]
 [ ] 최소 3개 Batch 실제 실행
@@ -2429,7 +2437,7 @@ Runtime Prompt
 [ ] Baseline 비교
 
 [Development Evidence]
-[ ] Codex Development Prompt 저장
+[x] Phase 0~1 Codex Development Prompt 저장
 [ ] Runtime Prompt 저장
 [ ] Prompt Evolution 기록
 ```
@@ -2452,18 +2460,8 @@ Python + Tree-sitter 기반 Deterministic Tool로 구현하라.
 각 Agent는 서로 다른 Runtime System Prompt,
 입력 Context, Tool 접근 방식, JSON Output Schema를 가져야 한다.
 
-한 번에 전체 시스템을 구현하지 말고 다음 순서로 진행하라.
-
-1. Structural Chunker
-2. Compact Code Index
-3. Retrieval Tools
-4. OllamaProvider
-5. Analyst Agent
-6. Context Agent
-7. Verifier Agent
-8. Orchestrator
-9. Token Telemetry
-10. 3 Batch Evaluation
+한 번에 전체 시스템을 구현하지 말고 16절의 Phase 0~16 Canonical 순서만 따라
+진행하라. 별도의 축약 Phase 번호를 만들지 마라.
 
 각 Phase가 실제로 실행되는 것을 테스트한 뒤 다음 단계로 진행하라.
 ```
