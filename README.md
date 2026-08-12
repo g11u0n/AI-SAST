@@ -16,7 +16,7 @@ Raspberry Pi Userland 대상 Multi-Agent 정적 보안 분석 프로젝트입니
 
 상세 설계와 실험 결과는
 [`AI SAST_Report_서민주.md`](AI%20SAST_Report_%EC%84%9C%EB%AF%BC%EC%A3%BC.md)를
-참고하십시오.
+참고바랍니다.
 
 ## 구조
 
@@ -29,6 +29,3 @@ scripts/     Build, verify, analysis entrypoint
 src/         Chunking, Index, Provider, Agent Runtime
 tests/       Contract verification
 ```
-
-Target checkout, 가상환경, cache, 임시 파일은 제출 Repository에 포함하지
-않습니다.
