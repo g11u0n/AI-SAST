@@ -1,12 +1,12 @@
 {
-  "captured_at_utc": "2026-08-11T10:09:08.357749Z",
+  "captured_at_utc": "2026-08-12T17:55:29.369535Z",
   "status": "PASS",
   "loaded_model": {
     "name": "qwen2.5-coder:7b-instruct-q4_K_M",
     "digest": "dae161e27b0e90dd1856c8bb3209201fd6736d8eb66298e75ed87571486f4364",
-    "size_bytes": 5455793356,
+    "size_bytes": 5942332620,
     "size_vram_bytes": 0,
     "processor": "cpu",
-    "context_length": 8192
+    "context_length": 16384
   }
 }

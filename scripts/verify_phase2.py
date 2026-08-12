@@ -22,7 +22,7 @@ import tree_sitter_cpp
 from tree_sitter import Language, Node, Parser
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-MAX_PAYLOAD = 3840
+MAX_PAYLOAD = 8192
 CHUNK_DOMAIN = b"ai-sast-chunk-id-v1\0"
 BATCH_DOMAIN = b"ai-sast-batch-id-v1\0"
 EXPERIMENT_DOMAIN = b"ai-sast-experiment-semantic-v1\0"
@@ -492,7 +492,7 @@ def validate_contract(
     if batching != {
         "algorithm": "source_order_next_fit_v1",
         "renderer_version": "evidence-frame-v1",
-        "max_payload_utf8_bytes": 3840,
+        "max_payload_utf8_bytes": 8192,
         "budget_counter": "utf8_byte_upper_bound_v1",
         "budget_unit_rule": "one_budget_unit_per_utf8_byte",
         "batch_id_domain": "ai-sast-batch-id-v1",
@@ -847,7 +847,7 @@ def verify(
             "renderer_version": "evidence-frame-v1",
             "budget_counter": "utf8_byte_upper_bound_v1",
             "budget_unit_rule": "one_budget_unit_per_utf8_byte",
-            "max_payload_utf8_bytes": 3840,
+            "max_payload_utf8_bytes": 8192,
             "token_count_kind": "conservative_upper_bound",
         }
         for key, expected in expected_batch_constants.items():
@@ -864,7 +864,7 @@ def verify(
             "target_commit_sha": target["target"]["commit_sha"],
             "target_scope_sha256": target["analysis_scope"]["scope_sha256"],
             "budget_counter": "utf8_byte_upper_bound_v1",
-            "max_payload_utf8_bytes": 3840,
+            "max_payload_utf8_bytes": 8192,
             "ordered_chunk_identity_sha256": ordered_hash,
             "payload_sha256": payload_hash,
             "payload_utf8_bytes": len(payload),

@@ -29,7 +29,7 @@ from src.chunking.tokenizer import decode_source, rendered_slice  # noqa: E402
 
 HASH_DOMAIN = b"ai-sast-experiment-semantic-v1\0"
 EXPERIMENT_ID_PREFIX = "exp-v1-"
-MAX_EVIDENCE_UTF8_BYTES = 3840
+MAX_EVIDENCE_UTF8_BYTES = 8192
 MAX_CHUNK_CONTENT_UTF8_BYTES = 3000
 CANONICAL_CHUNKING_DIR = Path("artifacts/chunking")
 CANONICAL_SELECTION = Path("artifacts/evaluation/selection.json")

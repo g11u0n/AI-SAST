@@ -1,0 +1,50 @@
+{
+  "agent_call_counts": {
+    "analyst": 3,
+    "context": 21,
+    "verifier": 21
+  },
+  "batch_count": 3,
+  "batch_status_counts": {
+    "NO_VERIFIED_FINDING": 3
+  },
+  "batch_target_count": 3,
+  "finding_count": 21,
+  "finding_status_counts": {
+    "REJECTED": 21
+  },
+  "handoff_efficiency": {
+    "avoided_utf8_bytes": 215399,
+    "baseline_policy": "repeat_original_raw_batch_on_each_handoff",
+    "baseline_retransmission_utf8_bytes": 310640,
+    "complete": true,
+    "measurement": "utf8_bytes_of_cross_agent_evidence_payloads",
+    "note": "If old v3 Batch files were resumed, pre-upgrade handoff/token telemetry cannot be reconstructed.",
+    "proposed_handoff_utf8_bytes": 95241,
+    "proposed_policy": "reference_only_index_then_minimal_evidence_pull",
+    "reduction_percent": 69.34
+  },
+  "purpose_call_counts": {
+    "context_selection": 21,
+    "first_pass": 3,
+    "verification": 21
+  },
+  "remaining_batch_count": 0,
+  "resume": {
+    "batches_without_recoverable_handoff_metrics": 0,
+    "batches_without_recoverable_telemetry": 0,
+    "enabled": false,
+    "recovered_batch_count": 0
+  },
+  "scan_mode": "priority",
+  "schema_version": 4,
+  "status": "PASS",
+  "telemetry_complete": true,
+  "total_eval_count": 6772,
+  "total_prompt_eval_count": 49421,
+  "truncated_batch_count": 1,
+  "truncated_batch_ids": [
+    "B1-f94fe463bc695aff357c5c65"
+  ],
+  "truncation_semantics": "analyst_output_enumeration_only; batch evidence is never silently truncated"
+}

@@ -1,0 +1,632 @@
+{
+  "all_batches_preserved": true,
+  "batch_count": 2055,
+  "note": "Priority score determines analysis order only. No Batch is skipped and no vulnerability is declared by the scheduler.",
+  "policy": "risk_aware_full_coverage_scheduler",
+  "priority_manifest_sha256": "6635d061895a645d89d8675525235a3bff97dbc989f12197eb2cdbc2a11fb360",
+  "schema_version": 1,
+  "score_definition": {
+    "ambiguous_resolution": "ambiguous/qualified call resolution, 2 points each, capped at 10",
+    "call_surface": "number of calls in Batch, capped at 10",
+    "cross_file": "external definition relationships, 4 points each, capped at 20",
+    "indirect_dynamic": "indirect/dynamic calls, 5 points each, capped at 15",
+    "maximum_score": 100,
+    "sensitive_api": "generic security-relevant API call hints, capped at 45"
+  },
+  "security_judgment": false,
+  "status": "PASS",
+  "top_batches": [
+    {
+      "ambiguous_resolution_count": 40,
+      "batch_id": "B1-f3f830435063a72cf67c60c7",
+      "call_count": 72,
+      "chunk_count": 7,
+      "cross_file_target_count": 15,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 1,
+      "priority_score": 85,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 10,
+        "call_surface": 10,
+        "cross_file": 20,
+        "indirect_dynamic": 0,
+        "sensitive_api": 45
+      },
+      "sensitive_api_categories": {
+        "external_input": 3,
+        "file_path": 3,
+        "memory_copy": 1,
+        "memory_lifetime": 6
+      },
+      "sensitive_api_names": {
+        "fopen": 3,
+        "fread": 3,
+        "free": 3,
+        "malloc": 3,
+        "memset": 1
+      }
+    },
+    {
+      "ambiguous_resolution_count": 13,
+      "batch_id": "B1-f94fe463bc695aff357c5c65",
+      "call_count": 38,
+      "chunk_count": 9,
+      "cross_file_target_count": 8,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 2,
+      "priority_score": 85,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 10,
+        "call_surface": 10,
+        "cross_file": 20,
+        "indirect_dynamic": 0,
+        "sensitive_api": 45
+      },
+      "sensitive_api_categories": {
+        "external_input": 1,
+        "file_path": 1,
+        "formatted_parse": 2,
+        "memory_lifetime": 2,
+        "memory_string": 1,
+        "size_handling": 2
+      },
+      "sensitive_api_names": {
+        "fopen": 1,
+        "fread": 1,
+        "free": 1,
+        "malloc": 1,
+        "sscanf": 2,
+        "strcpy": 1,
+        "strlen": 2
+      }
+    },
+    {
+      "ambiguous_resolution_count": 6,
+      "batch_id": "B1-0bc83af29734fe4a66e43591",
+      "call_count": 50,
+      "chunk_count": 7,
+      "cross_file_target_count": 15,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 3,
+      "priority_score": 84,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 10,
+        "call_surface": 10,
+        "cross_file": 20,
+        "indirect_dynamic": 0,
+        "sensitive_api": 44
+      },
+      "sensitive_api_categories": {
+        "external_input": 1,
+        "file_path": 1,
+        "formatted_parse": 1,
+        "memory_lifetime": 4,
+        "numeric_parse": 3,
+        "size_handling": 1
+      },
+      "sensitive_api_names": {
+        "atoi": 3,
+        "fopen": 1,
+        "fread": 1,
+        "free": 3,
+        "malloc": 1,
+        "sscanf": 1,
+        "strlen": 1
+      }
+    },
+    {
+      "ambiguous_resolution_count": 10,
+      "batch_id": "B1-22176d69a7dccdc5338f2cc1",
+      "call_count": 51,
+      "chunk_count": 10,
+      "cross_file_target_count": 6,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 4,
+      "priority_score": 76,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 10,
+        "call_surface": 10,
+        "cross_file": 20,
+        "indirect_dynamic": 0,
+        "sensitive_api": 36
+      },
+      "sensitive_api_categories": {
+        "memory_copy": 2,
+        "memory_lifetime": 1,
+        "memory_string": 1,
+        "numeric_parse": 3,
+        "size_handling": 1
+      },
+      "sensitive_api_names": {
+        "atoi": 3,
+        "free": 1,
+        "memset": 2,
+        "strcpy": 1,
+        "strlen": 1
+      }
+    },
+    {
+      "ambiguous_resolution_count": 0,
+      "batch_id": "B1-5420bd87ca482ab8947e2dec",
+      "call_count": 72,
+      "chunk_count": 10,
+      "cross_file_target_count": 7,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 5,
+      "priority_score": 75,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 0,
+        "call_surface": 10,
+        "cross_file": 20,
+        "indirect_dynamic": 0,
+        "sensitive_api": 45
+      },
+      "sensitive_api_categories": {
+        "memory_copy": 8,
+        "size_handling": 1
+      },
+      "sensitive_api_names": {
+        "memcpy": 3,
+        "memmove": 4,
+        "memset": 1,
+        "strlen": 1
+      }
+    },
+    {
+      "ambiguous_resolution_count": 1,
+      "batch_id": "B1-92f0c36c3c60fc014d158c3b",
+      "call_count": 28,
+      "chunk_count": 13,
+      "cross_file_target_count": 6,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 6,
+      "priority_score": 74,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 2,
+        "call_surface": 10,
+        "cross_file": 20,
+        "indirect_dynamic": 0,
+        "sensitive_api": 42
+      },
+      "sensitive_api_categories": {
+        "memory_copy": 3,
+        "memory_lifetime": 3,
+        "size_handling": 3
+      },
+      "sensitive_api_names": {
+        "free": 1,
+        "malloc": 1,
+        "memcpy": 2,
+        "memmove": 1,
+        "realloc": 1,
+        "strlen": 3
+      }
+    },
+    {
+      "ambiguous_resolution_count": 0,
+      "batch_id": "B1-0843f3124afda31d373b2b49",
+      "call_count": 56,
+      "chunk_count": 6,
+      "cross_file_target_count": 4,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 7,
+      "priority_score": 71,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 0,
+        "call_surface": 10,
+        "cross_file": 16,
+        "indirect_dynamic": 0,
+        "sensitive_api": 45
+      },
+      "sensitive_api_categories": {
+        "external_input": 1,
+        "file_path": 2,
+        "memory_copy": 1,
+        "memory_lifetime": 10,
+        "memory_string": 1,
+        "size_handling": 2
+      },
+      "sensitive_api_names": {
+        "calloc": 1,
+        "fopen": 2,
+        "fread": 1,
+        "free": 6,
+        "malloc": 3,
+        "memcpy": 1,
+        "sprintf": 1,
+        "strlen": 2
+      }
+    },
+    {
+      "ambiguous_resolution_count": 6,
+      "batch_id": "B1-f2a4e0ed5bbb21bd37d56956",
+      "call_count": 18,
+      "chunk_count": 10,
+      "cross_file_target_count": 6,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 8,
+      "priority_score": 71,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 10,
+        "call_surface": 10,
+        "cross_file": 20,
+        "indirect_dynamic": 0,
+        "sensitive_api": 31
+      },
+      "sensitive_api_categories": {
+        "external_input": 2,
+        "memory_copy": 2,
+        "memory_lifetime": 2
+      },
+      "sensitive_api_names": {
+        "free": 1,
+        "malloc": 1,
+        "memcpy": 1,
+        "memset": 1,
+        "recv": 1,
+        "recvfrom": 1
+      }
+    },
+    {
+      "ambiguous_resolution_count": 3,
+      "batch_id": "B1-32bfb7088fabb39db1e0e393",
+      "call_count": 27,
+      "chunk_count": 11,
+      "cross_file_target_count": 9,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 9,
+      "priority_score": 69,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 6,
+        "call_surface": 10,
+        "cross_file": 20,
+        "indirect_dynamic": 0,
+        "sensitive_api": 33
+      },
+      "sensitive_api_categories": {
+        "memory_copy": 2,
+        "memory_lifetime": 6,
+        "size_handling": 1
+      },
+      "sensitive_api_names": {
+        "free": 4,
+        "malloc": 2,
+        "memcpy": 1,
+        "memset": 1,
+        "strlen": 1
+      }
+    },
+    {
+      "ambiguous_resolution_count": 15,
+      "batch_id": "B1-e8d15161ba79bc2d159ece0a",
+      "call_count": 57,
+      "chunk_count": 3,
+      "cross_file_target_count": 9,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 10,
+      "priority_score": 69,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 10,
+        "call_surface": 10,
+        "cross_file": 20,
+        "indirect_dynamic": 0,
+        "sensitive_api": 29
+      },
+      "sensitive_api_categories": {
+        "file_path": 3,
+        "memory_lifetime": 2,
+        "numeric_parse": 1,
+        "size_handling": 2
+      },
+      "sensitive_api_names": {
+        "free": 1,
+        "malloc": 1,
+        "rename": 1,
+        "strlen": 2,
+        "strtoul": 1,
+        "unlink": 2
+      }
+    },
+    {
+      "ambiguous_resolution_count": 0,
+      "batch_id": "B1-7e7f51aafb11957d0a97f616",
+      "call_count": 45,
+      "chunk_count": 11,
+      "cross_file_target_count": 9,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 11,
+      "priority_score": 67,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 0,
+        "call_surface": 10,
+        "cross_file": 20,
+        "indirect_dynamic": 0,
+        "sensitive_api": 37
+      },
+      "sensitive_api_categories": {
+        "file_path": 1,
+        "memory_copy": 1,
+        "memory_lifetime": 6,
+        "size_handling": 2
+      },
+      "sensitive_api_names": {
+        "calloc": 1,
+        "fopen": 1,
+        "free": 4,
+        "malloc": 1,
+        "memcpy": 1,
+        "strlen": 2
+      }
+    },
+    {
+      "ambiguous_resolution_count": 3,
+      "batch_id": "B1-0073c4286e7097ed8564b9fe",
+      "call_count": 22,
+      "chunk_count": 12,
+      "cross_file_target_count": 6,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 12,
+      "priority_score": 65,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 6,
+        "call_surface": 10,
+        "cross_file": 20,
+        "indirect_dynamic": 0,
+        "sensitive_api": 29
+      },
+      "sensitive_api_categories": {
+        "file_path": 1,
+        "memory_lifetime": 1,
+        "memory_string": 1,
+        "size_handling": 4
+      },
+      "sensitive_api_names": {
+        "fopen": 1,
+        "free": 1,
+        "sprintf": 1,
+        "strlen": 4
+      }
+    },
+    {
+      "ambiguous_resolution_count": 0,
+      "batch_id": "B1-b1307436dd81902969c328eb",
+      "call_count": 17,
+      "chunk_count": 3,
+      "cross_file_target_count": 5,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 13,
+      "priority_score": 65,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 0,
+        "call_surface": 10,
+        "cross_file": 20,
+        "indirect_dynamic": 0,
+        "sensitive_api": 35
+      },
+      "sensitive_api_categories": {
+        "formatted_parse": 4,
+        "memory_lifetime": 1,
+        "size_handling": 1
+      },
+      "sensitive_api_names": {
+        "malloc": 1,
+        "sscanf": 4,
+        "strlen": 1
+      }
+    },
+    {
+      "ambiguous_resolution_count": 0,
+      "batch_id": "B1-f9e743a27388a72340313ded",
+      "call_count": 67,
+      "chunk_count": 3,
+      "cross_file_target_count": 13,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 14,
+      "priority_score": 65,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 0,
+        "call_surface": 10,
+        "cross_file": 20,
+        "indirect_dynamic": 0,
+        "sensitive_api": 35
+      },
+      "sensitive_api_categories": {
+        "formatted_parse": 1,
+        "memory_copy": 4,
+        "numeric_parse": 2
+      },
+      "sensitive_api_names": {
+        "memcpy": 2,
+        "memset": 2,
+        "sscanf": 1,
+        "strtol": 1,
+        "strtoul": 1
+      }
+    },
+    {
+      "ambiguous_resolution_count": 0,
+      "batch_id": "B1-66c0ff8cf57ef5867c25bb6c",
+      "call_count": 44,
+      "chunk_count": 4,
+      "cross_file_target_count": 4,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 15,
+      "priority_score": 64,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 0,
+        "call_surface": 10,
+        "cross_file": 16,
+        "indirect_dynamic": 0,
+        "sensitive_api": 38
+      },
+      "sensitive_api_categories": {
+        "formatted_parse": 2,
+        "memory_lifetime": 3,
+        "size_handling": 4
+      },
+      "sensitive_api_names": {
+        "malloc": 3,
+        "sscanf": 2,
+        "strlen": 4
+      }
+    },
+    {
+      "ambiguous_resolution_count": 0,
+      "batch_id": "B1-fdf6dbb378c65805e51eec0c",
+      "call_count": 31,
+      "chunk_count": 7,
+      "cross_file_target_count": 4,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 16,
+      "priority_score": 64,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 0,
+        "call_surface": 10,
+        "cross_file": 16,
+        "indirect_dynamic": 0,
+        "sensitive_api": 38
+      },
+      "sensitive_api_categories": {
+        "formatted_parse": 4,
+        "memory_copy": 1,
+        "size_handling": 1
+      },
+      "sensitive_api_names": {
+        "memcpy": 1,
+        "sscanf": 4,
+        "strlen": 1
+      }
+    },
+    {
+      "ambiguous_resolution_count": 0,
+      "batch_id": "B1-0ac10f4ab901f296e9e7f322",
+      "call_count": 23,
+      "chunk_count": 7,
+      "cross_file_target_count": 2,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 17,
+      "priority_score": 63,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 0,
+        "call_surface": 10,
+        "cross_file": 8,
+        "indirect_dynamic": 0,
+        "sensitive_api": 45
+      },
+      "sensitive_api_categories": {
+        "memory_copy": 1,
+        "memory_lifetime": 3,
+        "memory_string": 2,
+        "size_handling": 3
+      },
+      "sensitive_api_names": {
+        "free": 1,
+        "malloc": 2,
+        "memset": 1,
+        "strcpy": 2,
+        "strlen": 3
+      }
+    },
+    {
+      "ambiguous_resolution_count": 0,
+      "batch_id": "B1-2aff1b17ae70cc149e520cdb",
+      "call_count": 54,
+      "chunk_count": 3,
+      "cross_file_target_count": 8,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 18,
+      "priority_score": 63,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 0,
+        "call_surface": 10,
+        "cross_file": 20,
+        "indirect_dynamic": 0,
+        "sensitive_api": 33
+      },
+      "sensitive_api_categories": {
+        "external_input": 1,
+        "file_path": 2,
+        "formatted_parse": 2,
+        "memory_copy": 2
+      },
+      "sensitive_api_names": {
+        "fopen": 2,
+        "fread": 1,
+        "memset": 2,
+        "sscanf": 2
+      }
+    },
+    {
+      "ambiguous_resolution_count": 0,
+      "batch_id": "B1-3e1e62e505d3905f485f1c0d",
+      "call_count": 24,
+      "chunk_count": 5,
+      "cross_file_target_count": 2,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 19,
+      "priority_score": 63,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 0,
+        "call_surface": 10,
+        "cross_file": 8,
+        "indirect_dynamic": 0,
+        "sensitive_api": 45
+      },
+      "sensitive_api_categories": {
+        "formatted_parse": 9
+      },
+      "sensitive_api_names": {
+        "sscanf": 9
+      }
+    },
+    {
+      "ambiguous_resolution_count": 5,
+      "batch_id": "B1-622fd6e7a87863bcf1b299b9",
+      "call_count": 45,
+      "chunk_count": 2,
+      "cross_file_target_count": 18,
+      "indirect_dynamic_call_count": 0,
+      "priority_rank": 20,
+      "priority_score": 63,
+      "schema_version": 1,
+      "score_components": {
+        "ambiguous_resolution": 10,
+        "call_surface": 10,
+        "cross_file": 20,
+        "indirect_dynamic": 0,
+        "sensitive_api": 23
+      },
+      "sensitive_api_categories": {
+        "file_path": 1,
+        "formatted_parse": 1,
+        "memory_lifetime": 1,
+        "size_handling": 3
+      },
+      "sensitive_api_names": {
+        "free": 1,
+        "rename": 1,
+        "sscanf": 1,
+        "strlen": 3
+      }
+    }
+  ]
+}

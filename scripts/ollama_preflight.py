@@ -65,12 +65,12 @@ EXPECTED_ENVELOPE_RESPONSE = {"ok": True}
 CONTEXT_COMPONENT_CAPS = {
     "system_instruction_tokens": 768,
     "user_instruction_tokens": 256,
-    "evidence_or_raw_batch_tokens": 3840,
+    "evidence_or_raw_batch_tokens": 8192,
     "tool_and_response_schema_tokens": 768,
     "structured_state_tokens": 256,
     "chat_template_overhead_tokens": 256,
-    "reserved_output_tokens": 1280,
-    "safety_margin_tokens": 768,
+    "reserved_output_tokens": 1536,
+    "safety_margin_tokens": 4352,
 }
 
 
@@ -232,7 +232,7 @@ def context_probe(
         "user_instruction_marker": "u",
         "user_instruction_repetitions": 200,
         "evidence_marker": "e",
-        "evidence_repetitions": 3700,
+        "evidence_repetitions": 6500,
         "structured_state_marker": "q",
         "structured_state_repetitions": 220,
         "tool_description_marker": "t",
@@ -840,8 +840,8 @@ def parser() -> argparse.ArgumentParser:
         "--expected-digest",
         default=os.environ.get("OLLAMA_MODEL_DIGEST"),
     )
-    value.add_argument("--num-ctx", type=int, default=8192)
-    value.add_argument("--num-predict", type=int, default=1280)
+    value.add_argument("--num-ctx", type=int, default=16384)
+    value.add_argument("--num-predict", type=int, default=1536)
     value.add_argument("--temperature", type=float, default=0.0)
     value.add_argument("--seed", type=int, default=20260811)
     value.add_argument("--top-k", type=int, default=20)

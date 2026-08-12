@@ -58,7 +58,7 @@ CONTEXT_RECIPE = {
     "user_instruction_marker": "u",
     "user_instruction_repetitions": 200,
     "evidence_marker": "e",
-    "evidence_repetitions": 3700,
+    "evidence_repetitions": 6500,
     "structured_state_marker": "q",
     "structured_state_repetitions": 220,
     "tool_description_marker": "t",

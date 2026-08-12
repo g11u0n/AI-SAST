@@ -1,5 +1,5 @@
 {
-  "captured_at_utc": "2026-08-11T10:09:08.357749Z",
+  "captured_at_utc": "2026-08-12T17:55:29.369535Z",
   "status": "PASS",
   "request": {
     "model": "qwen2.5-coder:7b-instruct-q4_K_M",
@@ -43,8 +43,8 @@
       "additionalProperties": false
     },
     "options": {
-      "num_ctx": 8192,
-      "num_predict": 1280,
+      "num_ctx": 16384,
+      "num_predict": 1536,
       "temperature": 0.0,
       "seed": 20260811,
       "top_k": 20,
@@ -60,35 +60,35 @@
   "responses": [
     {
       "model": "qwen2.5-coder:7b-instruct-q4_K_M",
-      "created_at": "2026-08-11T10:04:06.8049996Z",
+      "created_at": "2026-08-12T17:47:06.7285128Z",
       "message": {
         "role": "assistant",
         "content": "{\n  \"status\": \"OK\",\n  \"backend\": \"ollama\",\n  \"seed_echo\": 20260811\n}"
       },
       "done": true,
       "done_reason": "stop",
-      "total_duration": 12867636800,
-      "load_duration": 8008323900,
+      "total_duration": 4630353000,
+      "load_duration": 464920800,
       "prompt_eval_count": 50,
-      "prompt_eval_duration": 1135989000,
+      "prompt_eval_duration": 178934000,
       "eval_count": 33,
-      "eval_duration": 3697989000
+      "eval_duration": 3726564000
     },
     {
       "model": "qwen2.5-coder:7b-instruct-q4_K_M",
-      "created_at": "2026-08-11T10:04:11.1012523Z",
+      "created_at": "2026-08-12T17:47:10.9252629Z",
       "message": {
         "role": "assistant",
         "content": "{\n  \"status\": \"OK\",\n  \"backend\": \"ollama\",\n  \"seed_echo\": 20260811\n}"
       },
       "done": true,
       "done_reason": "stop",
-      "total_duration": 4287958300,
-      "load_duration": 233961000,
+      "total_duration": 4190104900,
+      "load_duration": 240868800,
       "prompt_eval_count": 50,
-      "prompt_eval_duration": 159941000,
+      "prompt_eval_duration": 140699000,
       "eval_count": 33,
-      "eval_duration": 3887897000
+      "eval_duration": 3802074000
     }
   ],
   "parsed_outputs": [

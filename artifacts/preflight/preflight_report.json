@@ -1,9 +1,9 @@
 {
   "phase": 1,
   "status": "PASS",
-  "generated_at_utc": "2026-08-11T10:09:08.357749Z",
-  "experiment_id": "exp-v1-66575973a148987d741ba3f9",
-  "semantic_sha256": "66575973a148987d741ba3f95fc492fd141e4a30b13ce7262d054f0d02209ba7",
+  "generated_at_utc": "2026-08-12T17:55:29.369535Z",
+  "experiment_id": "exp-v1-9920e5db7c9d33113db6c214",
+  "semantic_sha256": "9920e5db7c9d33113db6c214ffabdf1bdcd8069d548ee5de5894e4fd1ea4ec1e",
   "checks": {
     "ollama_health": "PASS",
     "model_presence": "PASS",
@@ -17,45 +17,45 @@
   "environment": {
     "platform": "Windows-11-10.0.26200-SP0",
     "machine": "AMD64",
-    "python_version": "3.13.3",
+    "python_version": "3.13.14",
     "ollama_processor": "cpu"
   },
   "artifacts": [
     {
       "name": "context_envelope",
       "path": "artifacts/preflight/context_envelope.json",
-      "sha256": "ef1209e30040cf2f85b6e374f3b7048af0998b5c8d874a94762afc09134fdc31",
-      "size_bytes": 46778
+      "sha256": "159c551cd187fa01251905abe7dc7c5104b64044bd6e1a31dbc43f54800923cf",
+      "size_bytes": 63591
     },
     {
       "name": "model_show",
       "path": "artifacts/preflight/model_show.json",
-      "sha256": "d57e8c8fb2d80625b53f06bb6506218c99508b34626eb2630a5ecbcc2a894bb7",
+      "sha256": "665a9e055fea4f2daa2b21b412b1f2f2f045ff8103f6b5f26e8ab30ae0fbaba5",
       "size_bytes": 4351
     },
     {
       "name": "model_tags",
       "path": "artifacts/preflight/model_tags.json",
-      "sha256": "073c8eb2f1b256ad112022539927e833298cf141cd507cae8f476e3244fa20a1",
+      "sha256": "c6b50d4739b91c535dc6b668d189115db4a057ee51ab0db7d425e1f3fe855590",
       "size_bytes": 695
     },
     {
       "name": "ollama_version",
       "path": "artifacts/preflight/ollama_version.json",
-      "sha256": "7d6e300871aa34ea973098f41cbd8f5fb86a169645449624e015d34b06577c10",
+      "sha256": "f8b9815d4d844832ec9bfa1b45cea59de80fd0f1fb68c8376efc4647fc9f2036",
       "size_bytes": 100
     },
     {
       "name": "runtime_ps",
       "path": "artifacts/preflight/runtime_ps.json",
-      "sha256": "3e7f5946f81bb34bc73785ee5281bca5104bf4fb1fecfa9a3e2cf4d33ddeef26",
-      "size_bytes": 337
+      "sha256": "555245f0423609611fbb30a9a1c783463b970cc212238b70a744f925a0491782",
+      "size_bytes": 338
     },
     {
       "name": "structured_output_smoke",
       "path": "artifacts/preflight/structured_output_smoke.json",
-      "sha256": "3e30f5d25a446977036f799d4d8f350e1ae125524ea9b9fbde2756878b45174f",
-      "size_bytes": 2585
+      "sha256": "ba693d8f6f3de3f05b4f993d6a96798acab0c0cdc36f0c3559a279bdb51f9a66",
+      "size_bytes": 2583
     }
   ]
 }

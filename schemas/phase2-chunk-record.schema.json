@@ -49,7 +49,7 @@
     "token_count_kind": {"const": "conservative_upper_bound"},
     "token_counter": {"const": "utf8_byte_upper_bound_v1"},
     "evidence_frame_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-    "evidence_frame_utf8_bytes": {"type": "integer", "minimum": 1, "maximum": 3840},
-    "token_count": {"type": "integer", "minimum": 1, "maximum": 3840}
+    "evidence_frame_utf8_bytes": {"type": "integer", "minimum": 1, "maximum": 8192},
+    "token_count": {"type": "integer", "minimum": 1, "maximum": 8192}
   }
 }

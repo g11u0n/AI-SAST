@@ -173,7 +173,7 @@ class StructuralUnitTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertRegex(first[0]["chunk_id"], r"^C1-[0-9a-f]{24}$")
         self.assertEqual(first[0]["token_count"], first[0]["evidence_frame_utf8_bytes"])
-        self.assertLessEqual(first[0]["token_count"], 3840)
+        self.assertLessEqual(first[0]["token_count"], 8192)
 
     def test_chunk_end_line_is_inclusive(self) -> None:
         raw = b"int value;\n"
